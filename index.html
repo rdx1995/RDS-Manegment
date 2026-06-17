@@ -130,7 +130,7 @@
                                     <option value="সাংস্কৃতিক বিভাগ">সাংস্কৃতিক বিভাগ</option>
                                     <option value="অভ্যর্থনা বিভাগ">অভ্যর্থনা বিভাগ</option>
                                     <option value="মিডিয়া ও আইটি">মিডিয়া ও আইটি</option>
-                                    <option value="সাধারণ সদস্য">সাধারণ সদস্য</option>
+                                    <option value="স্বেচ্ছাসেবক (উপ-কমিটি)">স্বেচ্ছাসেবক (উপ-কমিটি)</option>
                                 </select>
                             </div>
                         </div>
@@ -257,7 +257,7 @@
                                         <option value="সাংস্কৃতিক বিভাগ">সাংস্কৃতিক বিভাগ</option>
                                         <option value="অভ্যর্থনা বিভাগ">অভ্যর্থনা বিভাগ</option>
                                         <option value="মিডিয়া ও আইটি">মিডিয়া ও আইটি</option>
-                                        <option value="সাধারণ সদস্য">সাধারণ সদস্য</option>
+                                        <option value="স্বেচ্ছাসেবক (উপ-কমিটি)">স্বেচ্ছাসেবক (উপ-কমিটি)</option>
                                     </select>
                                 </div>
                             </div>
@@ -366,10 +366,8 @@
         window.currentRole = ""; 
         window.selectedFolder = "";
 
-        // Fixed Category Sync List
-        const categoryList = ["মূল充কমিটি", "শৃংখলা বিভাগ", "আপ্যায়ন বিভাগ", "সাংস্কৃতিক বিভাগ", "অভ্যর্থনা বিভাগ", "মিডিয়া ও আইটি", "সাধারণ সদস্য"];
-        // Clean up visual presentation for internal array mapping
-        categoryList[0] = "মূল কমিটি"; 
+        // Fixed Category Sync List (Updated to "স্বেচ্ছাসেবক (উপ-কমিটি)")
+        const categoryList = ["মূল কমিটি", "শৃংখলা বিভাগ", "আপ্যায়ন বিভাগ", "সাংস্কৃতিক বিভাগ", "অভ্যর্থনা বিভাগ", "মিডিয়া ও আইটি", "স্বেচ্ছাসেবক (উপ-কমিটি)"];
 
         // SSC Batch Dropdowns Generator
         const sscDropdown = document.getElementById('sscBatch');
@@ -482,7 +480,14 @@
                     snapshot.forEach((childSnapshot) => {
                         let docData = childSnapshot.val();
                         docData.id = childSnapshot.key; 
-                        if(docData.category) docData.category = docData.category.trim(); 
+                        
+                        // যদি কোনো পুরাতন ডাটা 'সাধারণ সদস্য' ক্যাটাগরিতে থাকে, তবে তা স্বয়ংক্রিয়ভাবে নতুন ফোল্ডারে রিডাইরেক্ট হবে
+                        if(docData.category) {
+                            docData.category = docData.category.trim();
+                            if(docData.category === "সাধারণ সদস্য" || docData.category === "স্বেচ্ছাসেবক") {
+                                docData.category = "স্বেচ্ছাসেবক (উপ-কমিটি)";
+                            }
+                        } 
                         window.volunteers.push(docData);
                     });
                 }
