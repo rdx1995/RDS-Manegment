@@ -45,218 +45,283 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     </style>
 </head>
-<body class="min-h-screen p-4 md:p-8">
+<body class="min-h-screen p-4 md:p-8 flex flex-col justify-between">
 
-    <div class="max-w-7xl mx-auto flex justify-between items-center mb-8">
-        <div class="flex items-center gap-3">
-            <div class="bg-blue-600 p-2.5 rounded-xl shadow-lg shadow-blue-600/20">
-                <i class="fa-solid fa-shield-halved text-2xl text-white"></i>
-            </div>
-            <div>
-                <h1 class="text-xl md:text-2xl font-bold tracking-wide text-slate-900">V-Manager <span class="text-blue-600 font-medium">Pro</span></h1>
-                <p class="text-[10px] text-slate-500 font-medium tracking-wider uppercase hidden sm:block">Central Management System</p>
-            </div>
-        </div>
-        
-        <div class="flex items-center gap-2">
-            <button onclick="openAdminModal()" class="bg-slate-900 hover:bg-slate-800 text-white px-3 py-2 rounded-xl font-semibold flex items-center gap-1.5 text-xs transition shadow-sm">
-                <i class="fa-solid fa-user-check text-blue-400"></i> এডমিন প্যানেল
-            </button>
-        </div>
-    </div>
-
-    <div class="max-w-7xl mx-auto">
-        
-        <div id="formPage" class="transition-all duration-300 block">
-            <div class="corporate-card p-6 md:p-8 rounded-2xl relative overflow-hidden max-w-2xl mx-auto">
-                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
-                
-                <div class="mb-6">
-                    <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
-                        <i class="fa-solid fa-address-card text-blue-600"></i> নতুন সদস্য নিবন্ধন ফরম
-                    </h2>
-                    <p class="text-xs text-slate-500 mt-1">সঠিক তথ্য দিয়ে নিচের ফরমটি পূরণ করুন। (বড় ছবি অটোমেটিক ছোট হবে)</p>
+    <div class="w-full max-w-7xl mx-auto flex-grow">
+        <div class="flex justify-between items-center mb-8">
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-600 p-2.5 rounded-xl shadow-lg shadow-blue-600/20">
+                    <i class="fa-solid fa-shield-halved text-2xl text-white"></i>
                 </div>
-                
-                <form id="volunteerForm" onsubmit="handleRegistration(event)" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">সদস্যের নাম</label>
-                            <input type="text" id="name" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">পিতার নাম</label>
-                            <input type="text" id="fatherName" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">মোবাইল নম্বর</label>
-                        <input type="tel" id="mobile" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">ঠিকানা</label>
-                        <textarea id="address" rows="2" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"></textarea>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold tracking-wide text-slate-900">V-Manager <span class="text-blue-600 font-medium">Pro</span></h1>
+                    <p class="text-[10px] text-slate-500 font-medium tracking-wider uppercase hidden sm:block">Central Management System</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2">
+                <button onclick="openAdminModal()" class="bg-slate-900 hover:bg-slate-800 text-white px-3 py-2 rounded-xl font-semibold flex items-center gap-1.5 text-xs transition shadow-sm">
+                    <i class="fa-solid fa-user-check text-blue-400"></i> এডমিন প্যানেল
+                </button>
+            </div>
+        </div>
+
+        <div class="w-full">
+            
+            <div id="formPage" class="transition-all duration-300 block">
+                <div class="corporate-card p-6 md:p-8 rounded-2xl relative overflow-hidden max-w-2xl mx-auto">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
+                    
+                    <div class="mb-6">
+                        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-address-card text-blue-600"></i> নতুন সদস্য নিবন্ধন ফরম
+                        </h2>
+                        <p class="text-xs text-slate-500 mt-1">সঠিক তথ্য দিয়ে নিচের ফরমটি পূরণ করুন। (বড় ছবি অটোমেটিক ছোট হবে)</p>
                     </div>
                     
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">রক্তের গ্রুপ</label>
-                            <select id="bloodGroup" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 transition">
-                                <option value="">বাছাই করুন</option>
-                                <option value="A+">A+</option>
-                                <option value="A-">A-</option>
-                                <option value="B+">B+</option>
-                                <option value="B-">B-</option>
-                                <option value="AB+">AB+</option>
-                                <option value="AB-">AB-</option>
-                                <option value="O+">O+</option>
-                                <option value="O-">O-</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">এসএসসি ব্যাচ</label>
-                            <select id="sscBatch" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 transition">
-                                <option value="">বাছাই করুন</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">বিভাগ / ক্যাটাগরি</label>
-                            <select id="category" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 transition">
-                                <option value="">বাছাই করুন</option>
-                                <option value="শৃংখলা বিভাগ">শৃংখলা বিভাগ</option>
-                                <option value="আপ্যায়ন বিভাগ">আপ্যায়ন বিভাগ</option>
-                                <option value="সাংস্কৃতিক বিভাগ">সাংস্কৃতিক বিভাগ</option>
-                                <option value="অভ্যর্থনা বিভাগ">অভ্যর্থনা বিভাগ</option>
-                                <option value="মিডিয়া ও আইটি">মিডিয়া ও আইটি</option>
-                                <option value="সাধারণ সদস্য">সাধারণ সদস্য</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">সদস্যের ছবি (যেকোনো সাইজ - অটো কম্প্রেস হবে)</label>
-                        <div id="dropZone" class="drag-zone rounded-xl p-6 text-center cursor-pointer relative border-2 flex flex-col items-center justify-center min-h-[130px]">
-                            <input type="file" id="photo" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20">
-                            
-                            <div id="dropZonePrompt" class="space-y-1">
-                                <div class="text-3xl text-slate-400"><i class="fa-solid fa-cloud-arrow-up text-blue-500"></i></div>
-                                <p class="text-xs font-semibold text-slate-600">এখানে ছবি ড্রাগ করে ছাড়ুন অথবা <span class="text-blue-600">ব্রাউজ করুন</span></p>
-                                <p class="text-[10px] text-slate-400">PNG, JPG বা JPEG</p>
+                    <form id="volunteerForm" onsubmit="handleRegistration(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">আপনার নাম</label>
+                                <input type="text" id="name" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition">
                             </div>
-                            
-                            <div id="dropZonePreview" class="hidden flex items-center gap-4 text-left bg-white p-2 rounded-lg border border-slate-200 shadow-sm z-10">
-                                <img id="previewImg" src="#" class="w-14 h-14 object-cover rounded-md border border-slate-300">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">আপনার পদবী</label>
+                                <input type="text" id="fatherName" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">মোবাইল নম্বর</label>
+                            <input type="tel" id="mobile" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">ঠিকানা</label>
+                            <textarea id="address" rows="2" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"></textarea>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">রক্তের গ্রুপ</label>
+                                <select id="bloodGroup" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 transition">
+                                    <option value="">বাছাই করুন</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">এসএসসি ব্যাচ</label>
+                                <select id="sscBatch" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 transition">
+                                    <option value="">বাছাই করুন</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">বিভাগ / ক্যাটাগরি</label>
+                                <select id="category" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 transition">
+                                    <option value="">বাছাই করুন</option>
+                                    <option value="শৃংখলা বিভাগ">শৃংখলা বিভাগ</option>
+                                    <option value="আপ্যায়ন বিভাগ">আপ্যায়ন বিভাগ</option>
+                                    <option value="সাংস্কৃতিক বিভাগ">সাংস্কৃতিক বিভাগ</option>
+                                    <option value="অভ্যর্থনা বিভাগ">অভ্যর্থনা বিভাগ</option>
+                                    <option value="মিডিয়া ও আইটি">মিডিয়া ও আইটি</option>
+                                    <option value="সাধারণ সদস্য">সাধারণ সদস্য</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">আপনার ছবি দিন</label>
+                            <div id="dropZone" class="drag-zone rounded-xl p-6 text-center cursor-pointer relative border-2 flex flex-col items-center justify-center min-h-[130px]">
+                                <input type="file" id="photo" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20">
+                                
+                                <div id="dropZonePrompt" class="space-y-1">
+                                    <div class="text-3xl text-slate-400"><i class="fa-solid fa-cloud-arrow-up text-blue-500"></i></div>
+                                    <p class="text-xs font-semibold text-slate-600"> <span class="text-blue-600">ব্রাউজ করুন</span></p>
+                                    <p class="text-[10px] text-slate-400">PNG, JPG বা JPEG</p>
+                                </div>
+                                
+                                <div id="dropZonePreview" class="hidden flex items-center gap-4 text-left bg-white p-2 rounded-lg border border-slate-200 shadow-sm z-10">
+                                    <img id="previewImg" src="#" class="w-14 h-14 object-cover rounded-md border border-slate-300">
+                                    <div>
+                                        <p id="previewFileName" class="text-xs font-bold text-slate-800 truncate max-w-[180px]"></p>
+                                        <p id="compressionStatus" class="text-[9px] text-emerald-600 font-semibold"></p>
+                                        <button type="button" onclick="clearUploadedPhoto(event)" class="text-[11px] text-rose-500 font-medium hover:underline mt-0.5"><i class="fa-solid fa-trash-can"></i> রিমুভ করুন</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button id="submitBtn" type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-blue-600/10 text-sm">
+                            সংরক্ষণ ও সাবমিট করুন
+                        </button>
+                    </form>
+
+                    <div id="statusMessage" class="hidden absolute inset-0 bg-slate-900/95 flex flex-col items-center justify-center p-6 text-center z-30 transition-all duration-300">
+                        <div class="w-16 h-16 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-full flex items-center justify-center text-3xl mb-4 shadow-lg shadow-emerald-500/10 animate-bounce">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2 tracking-wide">আবেদন সফলভাবে সম্পন্ন হয়েছে!</h3>
+                        <p class="text-xs text-slate-400 max-w-xs leading-relaxed mb-6">মেম্বারের ডিজিটাল প্রোফাইল এবং রঙিন আইডি কার্ড ডিরেক্টরিতে সংরক্ষণ করা হয়েছে।</p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-3 w-full justify-center max-w-xs">
+                            <button id="successDownloadBtn" class="bg-emerald-600 text-xs text-white px-4 py-3 rounded-xl hover:bg-emerald-700 transition font-bold shadow-md shadow-emerald-600/20 flex items-center justify-center gap-1.5 w-full">
+                                <i class="fa-solid fa-download"></i> আইডি কার্ড ডাউনলোড
+                            </button>
+                            <button onclick="resetFormView()" class="bg-slate-700 text-xs text-white px-4 py-3 rounded-xl hover:bg-slate-600 transition font-bold w-full">
+                                নতুন ফরম খুলুন
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dashboardPage" class="hidden transition-all duration-300">
+                <div class="corporate-card p-6 md:p-8 rounded-2xl w-full flex flex-col">
+                    
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6 border-b border-slate-200 pb-4">
+                        <div>
+                            <div id="panelTitle" class="text-slate-900 font-bold flex items-center gap-2 text-base md:text-lg"></div>
+                            <p class="text-[11px] text-slate-500 font-medium mt-0.5">ফাইল ডিরেক্টরি লোড করা হয়েছে</p>
+                        </div>
+                        
+                        <div class="flex items-center gap-3 justify-end">
+                            <button onclick="backToForm()" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 px-4 py-2 rounded-xl font-semibold flex items-center gap-1.5 text-xs transition shadow-sm">
+                                <i class="fa-solid fa-right-from-bracket rotate-180"></i> ফিরে যান
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="folderViewZone" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4"></div>
+
+                    <div id="fileViewZone" class="hidden space-y-4">
+                        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                            <button onclick="exitFolderView()" class="text-xs text-blue-600 hover:text-blue-700 font-bold flex items-center gap-1">
+                                <i class="fa-solid fa-chevron-left text-[10px]"></i> <i class="fa-solid fa-folder-open"></i> ফোল্ডার তালিকায় ব্যাক করুন
+                        </button>
+                            <h3 id="currentActiveFolderName" class="text-xs md:text-sm font-bold text-slate-800 text-center"></h3>
+                            <button id="downloadBtn" onclick="downloadCSV()" class="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-lg hover:bg-emerald-700 transition font-medium shadow-sm flex items-center gap-1"><i class="fa-solid fa-file-excel"></i> Excel ডাউনলোড</button>
+                        </div>
+                        
+                        <div class="overflow-y-auto max-h-[460px] pr-1 custom-scrollbar space-y-2.5" id="innerMembersContainer"></div>
+                    </div>
+
+                    <div id="editViewZone" class="hidden space-y-4">
+                        <div class="flex justify-between items-center bg-slate-900 text-white p-3 rounded-xl">
+                            <h3 class="text-xs md:text-sm font-bold tracking-wide"><i class="fa-solid fa-pen-to-square text-amber-400"></i> সদস্যের তথ্য পরিবর্তন/এডিট করুন</h3>
+                            <button onclick="exitEditView()" class="text-white hover:text-slate-300 text-xs font-bold"><i class="fa-solid fa-xmark text-lg"></i></button>
+                        </div>
+                        <form id="editForm" onsubmit="handleUpdate(event)" class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                            <input type="hidden" id="editMemberId">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <p id="previewFileName" class="text-xs font-bold text-slate-800 truncate max-w-[180px]"></p>
-                                    <p id="compressionStatus" class="text-[9px] text-emerald-600 font-semibold"></p>
-                                    <button type="button" onclick="clearUploadedPhoto(event)" class="text-[11px] text-rose-500 font-medium hover:underline mt-0.5"><i class="fa-solid fa-trash-can"></i> রিমুভ করুন</button>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">সদস্যের নাম</label>
+                                    <input type="text" id="editName" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">পদবী</label>
+                                    <input type="text" id="editFatherName" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-500">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">মোবাইল নম্বর</label>
+                                <input type="tel" id="editMobile" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">ঠিকানা</label>
+                                <textarea id="editAddress" rows="2" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-500"></textarea>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">রক্তের গ্রুপ</label>
+                                    <select id="editBloodGroup" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-500">
+                                        <option value="A+">A+</option><option value="A-">A-</option><option value="B+">B+</option><option value="B-">B-</option>
+                                        <option value="AB+">AB+</option><option value="AB-">AB-</option><option value="O+">O+</option><option value="O-">O-</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">এসএসসি ব্যাচ</label>
+                                    <select id="editSscBatch" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-500"></select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">বিভাগ / ক্যাটাগরি</label>
+                                    <select id="editCategory" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-500">
+                                        <option value="শৃংখলা বিভাগ">শৃংখলা বিভাগ</option><option value="আপ্যায়ন বিভাগ">আপ্যায়ন বিভাগ</option>
+                                        <option value="সাংস্কৃতিক বিভাগ">সাংস্কৃতিক বিভাগ</option><option value="অভ্যর্থনা বিভাগ">অভ্যর্থনা বিভাগ</option>
+                                        <option value="মিডিয়া ও আইটি">মিডিয়া ও আইটি</option><option value="সাধারণ সদস্য">সাধারণ সদস্য</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="flex gap-3 pt-2">
+                                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2 rounded-xl text-sm transition">আপডেট করুন</button>
+                                <button type="button" onclick="exitEditView()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-6 py-2 rounded-xl text-sm transition">বাতিল</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="profileViewZone" class="hidden space-y-4">
+                        <div class="flex justify-between items-center bg-slate-900 text-white p-3 rounded-xl">
+                            <button onclick="exitProfileView()" class="bg-white/10 hover:bg-white/20 text-white text-xs px-4 py-2 rounded-lg font-bold flex items-center gap-1.5 transition">
+                                <i class="fa-solid fa-arrow-left"></i> ব্যাক বাটন
+                            </button>
+                            <h3 class="text-xs md:text-sm font-bold tracking-wide"><i class="fa-solid fa-id-card text-blue-400"></i> মেম্বার প্রোফাইল ও আইডি কার্ড</h3>
+                            <div class="w-20"></div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                            <div class="flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-slate-200 pb-6 md:pb-0 md:pr-6">
+                                <div class="text-slate-500 font-bold text-xs mb-3 uppercase tracking-wider">রঙিন আইডি কার্ড প্রিভিউ</div>
+                                <div id="idCardImageWrapper" class="relative max-w-full overflow-hidden rounded-xl border border-slate-300 shadow-lg"></div>
+                            </div>
+
+                            <div class="flex flex-col justify-center space-y-3">
+                                <div class="border-b border-slate-100 pb-2">
+                                    <span class="bg-blue-50 text-blue-600 font-bold text-[11px] px-2.5 py-1 rounded-md uppercase tracking-wider" id="profCategory"></span>
+                                </div>
+                                <div class="grid grid-cols-1 gap-3 text-slate-700 text-sm">
+                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
+                                        <p class="text-[11px] font-bold text-slate-400 uppercase">সদস্যের নাম</p>
+                                        <p class="font-bold text-slate-900 text-base mt-0.5" id="profName"></p>
+                                    </div>
+                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
+                                        <p class="text-[11px] font-bold text-slate-400 uppercase">পদবী</p>
+                                        <p class="font-semibold text-slate-800 mt-0.5" id="profFather"></p>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
+                                            <p class="text-[11px] font-bold text-slate-400 uppercase">এসএসসি ব্যাচ</p>
+                                            <p class="font-bold text-slate-800 mt-0.5" id="profBatch"></p>
+                                        </div>
+                                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
+                                            <p class="text-[11px] font-bold text-slate-400 uppercase">রক্তের গ্রুপ</p>
+                                            <p class="font-bold text-rose-600 mt-0.5 text-base" id="profBlood"></p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
+                                        <p class="text-[11px] font-bold text-slate-400 uppercase">মোবাইল নম্বর</p>
+                                        <a href="#" id="profMobileLink" class="font-bold text-blue-600 hover:underline inline-flex items-center gap-1.5 mt-0.5"><i class="fa-solid fa-phone text-xs"></i> <span id="profMobile"></span></a>
+                                    </div>
+                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
+                                        <p class="text-[11px] font-bold text-slate-400 uppercase">ঠিকানা</p>
+                                        <p class="text-slate-600 leading-relaxed mt-0.5" id="profAddress"></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <button id="submitBtn" type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-blue-600/10 text-sm">
-                        সংরক্ষণ ও সাবমিট করুন
-                    </button>
-                </form>
 
-                <!-- প্রিমিয়াম সাকসেস মেসেজ স্ক্রিন 👇 -->
-                <div id="statusMessage" class="hidden absolute inset-0 bg-slate-900/95 flex flex-col items-center justify-center p-6 text-center z-30 transition-all duration-300">
-                    <div class="w-16 h-16 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-full flex items-center justify-center text-3xl mb-4 shadow-lg shadow-emerald-500/10 animate-bounce">
-                        <i class="fa-solid fa-circle-check"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-2 tracking-wide">আবেদন সফলভাবে সম্পন্ন হয়েছে!</h3>
-                    <p class="text-xs text-slate-400 max-w-xs leading-relaxed mb-6">মেম্বারের ডিজিটাল প্রোফাইল এবং রঙিন আইডি কার্ড প্রিমিয়াম ফাইল ডিরেক্টরিতে সংরক্ষণ করা হয়েছে।</p>
-                    <button onclick="resetFormView()" class="bg-gradient-to-r from-blue-600 to-indigo-600 text-xs text-white px-6 py-3 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition font-bold shadow-md shadow-blue-600/20 tracking-wider">নতুন সদস্য ফরম খুলুন</button>
                 </div>
             </div>
         </div>
-
-        <div id="dashboardPage" class="hidden transition-all duration-300">
-            <div class="corporate-card p-6 md:p-8 rounded-2xl w-full flex flex-col">
-                
-                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6 border-b border-slate-200 pb-4">
-                    <div>
-                        <div id="panelTitle" class="text-slate-900 font-bold flex items-center gap-2 text-base md:text-lg"></div>
-                        <p class="text-[11px] text-slate-500 font-medium mt-0.5">ফাইল ডিরেক্টরি লোড করা হয়েছে</p>
-                    </div>
-                    
-                    <div class="flex items-center gap-3 justify-end">
-                        <button onclick="backToForm()" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 px-4 py-2 rounded-xl font-semibold flex items-center gap-1.5 text-xs transition shadow-sm">
-                            <i class="fa-solid fa-right-from-bracket rotate-180"></i> ফিরে যান
-                        </button>
-                    </div>
-                </div>
-
-                <div id="folderViewZone" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4"></div>
-
-                <div id="fileViewZone" class="hidden space-y-4">
-                    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
-                        <button onclick="exitFolderView()" class="text-xs text-blue-600 hover:text-blue-700 font-bold flex items-center gap-1">
-                            <i class="fa-solid fa-chevron-left text-[10px]"></i> <i class="fa-solid fa-folder-open"></i> ফোল্ডার তালিকায় ব্যাক করুন
-                        </button>
-                        <h3 id="currentActiveFolderName" class="text-xs md:text-sm font-bold text-slate-800 text-center"></h3>
-                        <button id="downloadBtn" onclick="downloadCSV()" class="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-lg hover:bg-emerald-700 transition font-medium shadow-sm flex items-center gap-1"><i class="fa-solid fa-file-excel"></i> Excel ডাউনলোড</button>
-                    </div>
-                    
-                    <div class="overflow-y-auto max-h-[460px] pr-1 custom-scrollbar space-y-2.5" id="innerMembersContainer"></div>
-                </div>
-
-                <div id="profileViewZone" class="hidden space-y-4">
-                    <div class="flex justify-between items-center bg-slate-900 text-white p-3 rounded-xl">
-                        <button onclick="exitProfileView()" class="bg-white/10 hover:bg-white/20 text-white text-xs px-4 py-2 rounded-lg font-bold flex items-center gap-1.5 transition">
-                            <i class="fa-solid fa-arrow-left"></i> ব্যাক বাটন
-                        </button>
-                        <h3 class="text-xs md:text-sm font-bold tracking-wide"><i class="fa-solid fa-id-card text-blue-400"></i> মেম্বার প্রোফাইল ও আইডি কার্ড</h3>
-                        <div class="w-20"></div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                        <div class="flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-slate-200 pb-6 md:pb-0 md:pr-6">
-                            <div class="text-slate-500 font-bold text-xs mb-3 uppercase tracking-wider">রঙিন আইডি কার্ড প্রিভিউ</div>
-                            <div id="idCardImageWrapper" class="relative max-w-full overflow-hidden rounded-xl border border-slate-300 shadow-lg"></div>
-                        </div>
-
-                        <div class="flex flex-col justify-center space-y-3">
-                            <div class="border-b border-slate-100 pb-2">
-                                <span class="bg-blue-50 text-blue-600 font-bold text-[11px] px-2.5 py-1 rounded-md uppercase tracking-wider" id="profCategory"></span>
-                            </div>
-                            <div class="grid grid-cols-1 gap-3 text-slate-700 text-sm">
-                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
-                                    <p class="text-[11px] font-bold text-slate-400 uppercase">সদস্যের নাম</p>
-                                    <p class="font-bold text-slate-900 text-base mt-0.5" id="profName"></p>
-                                </div>
-                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
-                                    <p class="text-[11px] font-bold text-slate-400 uppercase">পিতার নাম</p>
-                                    <p class="font-semibold text-slate-800 mt-0.5" id="profFather"></p>
-                                </div>
-                                <div class="grid grid-cols-2 gap-3">
-                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
-                                        <p class="text-[11px] font-bold text-slate-400 uppercase">এসএসসি ব্যাচ</p>
-                                        <p class="font-bold text-slate-800 mt-0.5" id="profBatch"></p>
-                                    </div>
-                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
-                                        <p class="text-[11px] font-bold text-slate-400 uppercase">রক্তের গ্রুপ</p>
-                                        <p class="font-bold text-rose-600 mt-0.5 text-base" id="profBlood"></p>
-                                    </div>
-                                </div>
-                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
-                                    <p class="text-[11px] font-bold text-slate-400 uppercase">মোবাইল নম্বর</p>
-                                    <a href="#" id="profMobileLink" class="font-bold text-blue-600 hover:underline inline-flex items-center gap-1.5 mt-0.5"><i class="fa-solid fa-phone text-xs"></i> <span id="profMobile"></span></a>
-                                </div>
-                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
-                                    <p class="text-[11px] font-bold text-slate-400 uppercase">ঠিকানা</p>
-                                    <p class="text-slate-600 leading-relaxed mt-0.5" id="profAddress"></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
     </div>
+
+    <footer class="w-full text-center py-4 mt-8 border-t border-slate-300/60 text-xs md:text-sm text-slate-600 font-medium">
+        Developed By <a href="https://wa.me/8801763752653" target="_blank" class="text-blue-600 font-bold hover:text-blue-700 transition inline-flex items-center gap-1"><i class="fa-brands fa-whatsapp text-emerald-500 text-sm md:text-base"></i> RAFI DIGITAL SOLUTION</a>
+    </footer>
 
     <div id="adminAuthModal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-md z-50 flex items-center justify-center p-4">
         <div class="bg-white p-6 rounded-2xl w-full max-w-xs border border-slate-200 relative shadow-xl">
@@ -274,10 +339,9 @@
     <canvas id="cardCanvas" class="hidden"></canvas>
     <canvas id="compressorCanvas" class="hidden"></canvas>
 
-    <!-- Firebase SDK ও রিয়েলটাইম ডাটাবেস লজিক (আপডেটেড) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, set, push, get, child, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, set, push, get, child, remove, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         // Firebase Configuration
         const firebaseConfig = {
@@ -290,27 +354,24 @@
           measurementId: "G-6QVZMJHCZM"
         };
 
-        // Initialize Firebase & Database
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Global state array
         window.volunteers = [];
         window.currentRole = ""; 
         window.selectedFolder = "";
 
         const categoryList = ["শৃংখলা বিভাগ", "আপ্যায়ন বিভাগ", "সাংস্কৃতিক বিভাগ", "অভ্যর্থনা বিভাগ", "মিডিয়া ও আইটি", "সাধারণ সদস্য"];
 
-        // SSC Batch Dropdown Generator
+        // SSC Batch Dropdowns Generator
         const sscDropdown = document.getElementById('sscBatch');
+        const editSscDropdown = document.getElementById('editSscBatch');
         for (let y = 2026; y >= 1970; y--) {
-            let op = document.createElement('option');
-            op.value = y;
-            op.innerText = `${y} ব্যাচ`;
-            sscDropdown.appendChild(op);
+            let op1 = document.createElement('option'); op1.value = y; op1.innerText = `${y} ব্যাচ`; sscDropdown.appendChild(op1);
+            let op2 = document.createElement('option'); op2.value = y; op2.innerText = `${y} ব্যাচ`; editSscDropdown.appendChild(op2);
         }
 
-        // Dropzone & Image Handling
+        // Image Handling
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('photo');
         const dropZonePrompt = document.getElementById('dropZonePrompt');
@@ -327,32 +388,18 @@
             img.onload = function() {
                 const canvas = document.getElementById('compressorCanvas');
                 const ctx = canvas.getContext('2d');
-                let width = img.width;
-                let height = img.height;
-
-                if (width > height) {
-                    if (width > maxWidth) { height *= maxWidth / width; width = maxWidth; }
-                } else {
-                    if (height > maxHeight) { width *= maxHeight / height; height = maxHeight; }
-                }
-                canvas.width = width;
-                canvas.height = height;
+                let width = img.width; let height = img.height;
+                if (width > height) { if (width > maxWidth) { height *= maxWidth / width; width = maxWidth; } } 
+                else { if (height > maxHeight) { width *= maxHeight / height; height = maxHeight; } }
+                canvas.width = width; canvas.height = height;
                 ctx.clearRect(0, 0, width, height);
                 ctx.drawImage(img, 0, 0, width, height);
-
-                const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
-                callback(compressedBase64);
+                callback(canvas.toDataURL('image/jpeg', quality));
             };
         }
 
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropZone.addEventListener(eventName, (e) => { e.preventDefault(); dropZone.classList.add('dragover'); }, false);
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); }, false);
-        });
-
+        ['dragenter', 'dragover'].forEach(name => dropZone.addEventListener(name, (e) => { e.preventDefault(); dropZone.classList.add('dragover'); }, false));
+        ['dragleave', 'drop'].forEach(name => dropZone.addEventListener(name, (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); }, false));
         fileInput.addEventListener('change', function(e) { processFileBlob(e.target.files[0]); });
 
         function processFileBlob(file) {
@@ -361,43 +408,35 @@
                 compressionStatus.innerText = "⚡ প্রসেসিং ও কম্প্রেশন হচ্ছে...";
                 const r = new FileReader();
                 r.onload = function(event) {
-                    compressImageEngine(event.target.result, 400, 400, 0.7, function(compressedResult) {
-                        currentBase64Photo = compressedResult;
-                        previewImg.src = compressedResult;
+                    compressImageEngine(event.target.result, 400, 400, 0.7, function(res) {
+                        currentBase64Photo = res; previewImg.src = res;
                         compressionStatus.innerText = "✅ অটো-কম্প্রেসড সফল (Optimized)";
-                        dropZonePrompt.classList.add('hidden');
-                        dropZonePreview.classList.remove('hidden');
+                        dropZonePrompt.classList.add('hidden'); dropZonePreview.classList.remove('hidden');
                     });
                 };
                 r.readAsDataURL(file);
             }
         }
-        window.clearUploadedPhoto = function(event) {
-            if (event) { event.stopPropagation(); event.preventDefault(); }
-            fileInput.value = "";
-            currentBase64Photo = "";
-            dropZonePreview.classList.add('hidden');
-            dropZonePrompt.classList.remove('hidden');
+        window.clearUploadedPhoto = function(e) {
+            if (e) { e.stopPropagation(); e.preventDefault(); }
+            fileInput.value = ""; currentBase64Photo = "";
+            dropZonePreview.classList.add('hidden'); dropZonePrompt.classList.remove('hidden');
         }
 
-        // Realtime Database ডাটা আপলোড মেথড 👇
+        // Realtime Database Upload
         window.handleRegistration = async function(e) {
             e.preventDefault();
-            if(!currentBase64Photo) {
-                alert("অনুগ্রহ করে মেম্বারের একটি ছবি আপলোড করুন।");
-                return;
-            }
+            if(!currentBase64Photo) { alert("অনুগ্রহ করে মেম্বারের একটি ছবি আপলোড করুন।"); return; }
             const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true;
-            submitBtn.innerText = "সংরক্ষণ হচ্ছে... অনুগ্রহ করে অপেক্ষা করুন...";
+            submitBtn.disabled = true; submitBtn.innerText = "সংরক্ষণ হচ্ছে...";
 
             try {
                 const volunteersRef = ref(db, 'premium_volunteers');
                 const newVolunteerRef = push(volunteersRef); 
+                const generatedId = newVolunteerRef.key;
 
                 const data = {
-                    id: newVolunteerRef.key, 
-                    uid: 'REG-' + Date.now(),
+                    id: generatedId, uid: 'REG-' + Date.now(),
                     name: document.getElementById('name').value,
                     fatherName: document.getElementById('fatherName').value,
                     mobile: document.getElementById('mobile').value,
@@ -405,33 +444,32 @@
                     bloodGroup: document.getElementById('bloodGroup').value,
                     sscBatch: document.getElementById('sscBatch').value,
                     category: document.getElementById('category').value,
-                    photo: currentBase64Photo,
-                    createdAt: new Date().toISOString()
+                    photo: currentBase64Photo, createdAt: new Date().toISOString()
                 };
 
                 await set(newVolunteerRef, data);
 
-                // সফল হলে সাকসেস স্ক্রিন শো করবে
+                window.volunteers.push(data);
+
+                document.getElementById('successDownloadBtn').onclick = function() {
+                    window.generateDynamicCard(generatedId, 'download');
+                };
+
                 document.getElementById('statusMessage').classList.remove('hidden');
                 document.getElementById('volunteerForm').reset();
                 clearUploadedPhoto(null);
             } catch (error) {
-                console.error("Database Error: ", error);
-                alert("সার্ভারে ডাটা সংরক্ষণ করতে সমস্যা হয়েছে।");
+                console.error(error); alert("ডাটা সংরক্ষণ করতে সমস্যা হয়েছে।");
             } finally {
-                // বাটন আগের অবস্থায় ফিরিয়ে আনা
-                submitBtn.disabled = false;
-                submitBtn.innerText = "সংরক্ষণ ও সাবমিট করুন";
+                submitBtn.disabled = false; submitBtn.innerText = "সংরক্ষণ ও সাবমিট করুন";
             }
         }
 
         window.resetFormView = function() { document.getElementById('statusMessage').classList.add('hidden'); }
 
-        // Realtime Database থেকে ফ্রেশ ডেটা ফেচ করার লজিক 👇
         async function fetchVolunteersFromRealtimeDB() {
             try {
-                const dbRef = ref(db);
-                const snapshot = await get(child(dbRef, 'premium_volunteers'));
+                const snapshot = await get(child(ref(db), 'premium_volunteers'));
                 window.volunteers = [];
                 if (snapshot.exists()) {
                     snapshot.forEach((childSnapshot) => {
@@ -440,33 +478,24 @@
                         window.volunteers.push(docData);
                     });
                 }
-            } catch (error) {
-                console.error("Error fetching data: ", error);
-            }
+            } catch (error) { console.error(error); }
         }
 
         window.openAdminModal = function() {
             document.getElementById('adminAuthModal').classList.remove('hidden');
             document.getElementById('adminAuthError').classList.add('hidden');
-            document.getElementById('adminPassword').value = "";
-            document.getElementById('adminPassword').focus();
+            document.getElementById('adminPassword').value = ""; document.getElementById('adminPassword').focus();
         }
         window.closeAdminModal = function() { document.getElementById('adminAuthModal').classList.add('hidden'); }
 
         window.verifyAdminAuth = async function() {
             if(document.getElementById('adminPassword').value === '1234') {
-                closeAdminModal();
-                window.currentRole = "admin";
-                
-                const folderZone = document.getElementById('folderViewZone');
-                folderZone.innerHTML = `<div class="col-span-full text-center py-6 text-slate-600 font-semibold"><i class="fa-solid fa-spinner fa-spin text-blue-600 text-xl mr-2"></i> Realtime DB থেকে ডাটা সিঙ্ক হচ্ছে...</div>`;
-                
+                closeAdminModal(); window.currentRole = "admin";
+                document.getElementById('folderViewZone').innerHTML = `<div class="col-span-full text-center py-6 text-slate-600 font-semibold"><i class="fa-solid fa-spinner fa-spin text-blue-600 text-xl mr-2"></i> ডাটা সিঙ্ক হচ্ছে...</div>`;
                 launchDashboard("অ্যাডমিন ফাইল ডিরেক্টরি প্যানেল");
                 await fetchVolunteersFromRealtimeDB();
                 renderFolders();
-            } else {
-                document.getElementById('adminAuthError').classList.remove('hidden');
-            }
+            } else { document.getElementById('adminAuthError').classList.remove('hidden'); }
         }
 
         function launchDashboard(titleText) {
@@ -482,9 +511,7 @@
         }
 
         function renderFolders() {
-            const folderZone = document.getElementById('folderViewZone');
-            folderZone.innerHTML = "";
-
+            const folderZone = document.getElementById('folderViewZone'); folderZone.innerHTML = "";
             categoryList.forEach(cat => {
                 const count = window.volunteers.filter(v => v.category === cat).length;
                 folderZone.innerHTML += `
@@ -496,39 +523,38 @@
                 `;
             });
         }
-        window.renderFolders = renderFolders;
 
-        window.enterFolder = function(categoryName) {
-            window.selectedFolder = categoryName;
+        window.enterFolder = function(name) {
+            window.selectedFolder = name;
             document.getElementById('folderViewZone').classList.add('hidden');
             document.getElementById('fileViewZone').classList.remove('hidden');
             document.getElementById('profileViewZone').classList.add('hidden');
-            document.getElementById('currentActiveFolderName').innerText = `📂 ডিরেক্টরি: ${categoryName}`;
+            document.getElementById('editViewZone').classList.add('hidden');
+            document.getElementById('currentActiveFolderName').innerText = `📂 ডিরেক্টরি: ${name}`;
             renderFolderFiles();
         }
 
-        function exitFolderView() {
+        window.exitFolderView = function() {
             document.getElementById('fileViewZone').classList.add('hidden');
             document.getElementById('profileViewZone').classList.add('hidden');
+            document.getElementById('editViewZone').classList.add('hidden');
             document.getElementById('folderViewZone').classList.remove('hidden');
             renderFolders();
         }
-        window.exitFolderView = exitFolderView;
 
         function renderFolderFiles() {
-            const container = document.getElementById('innerMembersContainer');
-            container.innerHTML = "";
-
+            const container = document.getElementById('innerMembersContainer'); container.innerHTML = "";
             const list = window.volunteers.filter(v => v.category === window.selectedFolder);
 
             if(list.length === 0) {
-                container.innerHTML = `<div class="text-center py-12 text-slate-400 text-xs font-medium"><i class="fa-solid fa-file-excel text-2xl mb-1.5 block text-slate-300"></i>এই ফোল্ডারে কোনো ফাইল রেকর্ড পাওয়া যায়নি</div>`;
+                container.innerHTML = `<div class="text-center py-12 text-slate-400 text-xs font-medium"><i class="fa-solid fa-file-excel text-2xl mb-1.5 block text-slate-300"></i>কোনো ফাইল রেকর্ড পাওয়া যায়নি</div>`;
                 return;
             }
 
             list.forEach(v => {
-                const deleteAction = (window.currentRole === 'admin') 
-                    ? `<button onclick="deleteMember('${v.id}')" class="text-slate-400 hover:text-rose-500 p-2 transition text-xs" title="ডিলিট"><i class="fa-solid fa-trash-can"></i></button>` 
+                const adminActions = (window.currentRole === 'admin') 
+                    ? `<button onclick="openEditMode('${v.id}')" class="text-amber-600 hover:bg-amber-50 p-2 rounded-xl transition text-xs" title="এডিট"><i class="fa-solid fa-pen-to-square"></i></button>
+                       <button onclick="deleteMember('${v.id}')" class="text-slate-400 hover:text-rose-500 p-2 transition text-xs" title="ডিলিট"><i class="fa-solid fa-trash-can"></i></button>` 
                     : '';
 
                 container.innerHTML += `
@@ -541,20 +567,70 @@
                             </div>
                         </div>
                         <div class="flex items-center gap-1.5 shrink-0">
-                            <button onclick="openProfileShowcase('${v.id}')" class="bg-emerald-50 hover:bg-emerald-600 text-emerald-600 hover:text-white border border-emerald-200 px-3 py-2 rounded-xl text-xs transition font-bold" title="কার্ড ভিউ"><i class="fa-solid fa-eye"></i> ভিউ</button>
-                            <button onclick="generateDynamicCard('${v.id}', 'download')" class="bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white border border-blue-200 p-2 rounded-xl text-xs transition" title="কার্ড ডাউনলোড"><i class="fa-solid fa-download"></i></button>
-                            ${deleteAction}
+                            <button onclick="openProfileShowcase('${v.id}')" class="bg-emerald-50 hover:bg-emerald-600 text-emerald-600 hover:text-white border border-emerald-200 px-3 py-2 rounded-xl text-xs transition font-bold"><i class="fa-solid fa-eye"></i> ভিউ</button>
+                            <button onclick="generateDynamicCard('${v.id}', 'download')" class="bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white border border-blue-200 p-2 rounded-xl text-xs transition"><i class="fa-solid fa-download"></i></button>
+                            ${adminActions}
                         </div>
                     </div>
                 `;
             });
         }
-        window.renderFolderFiles = renderFolderFiles;
 
-        window.openProfileShowcase = function(memberId) {
+        window.openEditMode = function(memberId) {
             const v = window.volunteers.find(m => m.id === memberId);
             if(!v) return;
 
+            document.getElementById('editMemberId').value = v.id;
+            document.getElementById('editName').value = v.name;
+            document.getElementById('editFatherName').value = v.fatherName;
+            document.getElementById('editMobile').value = v.mobile;
+            document.getElementById('editAddress').value = v.address;
+            document.getElementById('editBloodGroup').value = v.bloodGroup;
+            document.getElementById('editSscBatch').value = v.sscBatch;
+            document.getElementById('editCategory').value = v.category;
+
+            document.getElementById('fileViewZone').classList.add('hidden');
+            document.getElementById('editViewZone').classList.remove('hidden');
+        }
+
+        window.exitEditView = function() {
+            document.getElementById('editViewZone').classList.add('hidden');
+            document.getElementById('fileViewZone').classList.remove('hidden');
+        }
+
+        window.handleUpdate = async function(e) {
+            e.preventDefault();
+            const id = document.getElementById('editMemberId').value;
+            const updatedCategory = document.getElementById('editCategory').value;
+
+            const updatedData = {
+                name: document.getElementById('editName').value,
+                fatherName: document.getElementById('editFatherName').value,
+                mobile: document.getElementById('editMobile').value,
+                address: document.getElementById('editAddress').value,
+                bloodGroup: document.getElementById('editBloodGroup').value,
+                sscBatch: document.getElementById('editSscBatch').value,
+                category: updatedCategory
+            };
+
+            try {
+                await update(ref(db, `premium_volunteers/${id}`), updatedData);
+                
+                let index = window.volunteers.findIndex(m => m.id === id);
+                if (index !== -1) {
+                    window.volunteers[index] = { ...window.volunteers[index], ...updatedData };
+                }
+
+                alert("মেম্বারের তথ্য সফলভাবে আপডেট করা হয়েছে!");
+                window.selectedFolder = updatedCategory; 
+                window.enterFolder(window.selectedFolder);
+            } catch (error) {
+                console.error(error); alert("আপডেট করতে সমস্যা হয়েছে।");
+            }
+        }
+
+        window.openProfileShowcase = function(memberId) {
+            const v = window.volunteers.find(m => m.id === memberId); if(!v) return;
             document.getElementById('profName').innerText = v.name;
             document.getElementById('profFather').innerText = v.fatherName;
             document.getElementById('profBatch').innerText = v.sscBatch + " ব্যাচ";
@@ -567,10 +643,9 @@
             const wrapper = document.getElementById('idCardImageWrapper');
             wrapper.innerHTML = `<div class="p-8 text-slate-400 text-xs font-semibold animate-pulse"><i class="fa-solid fa-spinner fa-spin text-blue-500 text-lg mb-1 block text-center"></i>রঙিন কার্ড লোড হচ্ছে...</div>`;
 
-            generateDynamicCard(memberId, 'inject', function(dataUrl) {
-                wrapper.innerHTML = `<img src="${dataUrl}" class="w-[280px] h-[396px] object-cover animate-fade-in">`;
+            window.generateDynamicCard(memberId, 'inject', function(dataUrl) {
+                wrapper.innerHTML = `<img src="${dataUrl}" class="w-[280px] h-[396px] object-cover">`;
             });
-
             document.getElementById('fileViewZone').classList.add('hidden');
             document.getElementById('profileViewZone').classList.remove('hidden');
         }
@@ -580,78 +655,61 @@
             document.getElementById('fileViewZone').classList.remove('hidden');
         }
 
-        // Realtime Database ডিলিট মেথড 👇
         window.deleteMember = async function(id) {
-            if(confirm("ফাইলটি রিয়েলটাইম ডাটাবেস থেকে চিরতরে ডিলিট করতে চান?")) {
+            if(confirm("ফাইলটি চিরতরে ডিলিট করতে চান?")) {
                 try {
-                    const nodeRef = ref(db, `premium_volunteers/${id}`);
-                    await remove(nodeRef);
+                    await remove(ref(db, `premium_volunteers/${id}`));
                     window.volunteers = window.volunteers.filter(v => v.id !== id);
-                    renderFolderFiles();
-                    renderFolders(); 
-                } catch (error) {
-                    console.error("Error deleting node: ", error);
-                    alert("ফাইলটি ডিলিট করা সম্ভব হয়নি।");
-                }
+                    renderFolderFiles(); renderFolders(); 
+                } catch (error) { console.error(error); alert("ডিলিট করা সম্ভব হয়নি।"); }
             }
         }
 
-        // Dynamic Card Rendering Engine
+        // Dynamic Card Rendering Engine (Fixed Format)
         window.generateDynamicCard = function(memberId, mode, callback) {
-            const v = window.volunteers.find(m => m.id === memberId);
-            if(!v) return;
-
-            const canvas = document.getElementById('cardCanvas');
-            const ctx = canvas.getContext('2d');
-
-            const templateImg = new Image();
-            templateImg.crossOrigin = "anonymous"; 
+            const v = window.volunteers.find(m => m.id === memberId); if(!v) return;
+            const canvas = document.getElementById('cardCanvas'); const ctx = canvas.getContext('2d');
+            const templateImg = new Image(); templateImg.crossOrigin = "anonymous"; 
             templateImg.src = 'https://i.ibb.co.com/84DndQNp/IMG-20260616-WA0090.jpg'; 
 
             templateImg.onload = function() {
-                canvas.width = 723;
-                canvas.height = 1024;
+                canvas.width = 723; canvas.height = 1024;
                 ctx.drawImage(templateImg, 0, 0, 723, 1024);
-
-                const userImg = new Image();
-                userImg.src = v.photo;
-
+                const userImg = new Image(); userImg.src = v.photo;
                 userImg.onload = function() {
                     ctx.drawImage(userImg, 168, 258, 390, 398);
-                    ctx.fillStyle = "#1e293b"; 
-                    ctx.font = "bold 28px 'Hind Siliguri', sans-serif";
-                    ctx.textAlign = "center";
+                    
+                    ctx.textAlign = "center"; 
                     ctx.textBaseline = "middle"; 
-                    ctx.fillText(v.name, 361, 735);
+
+                    // মেম্বারের নাম (সাইজ বড়: 32px)
+                    ctx.fillStyle = "#1e293b"; 
+                    ctx.font = "bold 32px 'Hind Siliguri', sans-serif";
+                    ctx.fillText(v.name, 361, 725); 
+
+                    // মেম্বারের পদবী (সাইজ ছোট: 22px)
+                    ctx.fillStyle = "#475569"; 
+                    ctx.font = "600 22px 'Hind Siliguri', sans-serif";
+                    ctx.fillText(v.fatherName, 361, 765); 
 
                     const dataUrl = canvas.toDataURL('image/jpeg', 1.0);
-
                     if (mode === 'download') {
-                        const link = document.createElement('a');
-                        link.download = `${v.name}_Alumni_Card.jpg`;
-                        link.href = dataUrl; 
-                        link.click();
-                    } else if (mode === 'inject' && callback) {
-                        callback(dataUrl);
-                    }
+                        const link = document.createElement('a'); link.download = `${v.name}_Alumni_Card.jpg`;
+                        link.href = dataUrl; link.click();
+                    } else if (mode === 'inject' && callback) { callback(dataUrl); }
                 };
             };
         }
 
-        // CSV Downloader
         window.downloadCSV = function() {
-            const list = window.volunteers.filter(v => v.category === window.selectedFolder);
-            if(list.length === 0) return;
-            let csv = "\uFEFFID,Name,Father's Name,Mobile,Address,Blood Group,SSC Batch,Category\n";
+            const list = window.volunteers.filter(v => v.category === window.selectedFolder); if(list.length === 0) return;
+            let csv = "\uFEFFID,Name,Designation,Mobile,Address,Blood Group,SSC Batch,Category\n";
             list.forEach(v => {
                 let cleanAddress = v.address.replace(/,/g, ' -');
                 csv += `"${v.id}","${v.name}","${v.fatherName}","${v.mobile}","${cleanAddress}","${v.bloodGroup}","${v.sscBatch}","${v.category}"\n`;
             });
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = `${window.selectedFolder}_List.csv`;
-            link.click();
+            const link = document.createElement("a"); link.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+            link.download = `${window.selectedFolder}_List.csv`; link.click();
         }
 
         document.getElementById('adminPassword').addEventListener('keypress', function(e) { if(e.key === 'Enter') verifyAdminAuth(); });
