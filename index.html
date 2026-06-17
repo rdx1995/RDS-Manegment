@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Corporate Alumni & Volunteer Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+            color: #102a43;
+        }
+        .corporate-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 30px rgba(16, 42, 67, 0.08);
+        }
+        .folder-card {
+            background: #ffffff;
+            border: 1px solid #bcccdc;
+            box-shadow: 0 4px 15px rgba(16, 42, 67, 0.04);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .folder-card:hover {
+            transform: translateY(-4px);
+            border-color: #3b82f6;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+        }
+        .drag-zone {
+            border: 2px dashed #9fb3c8;
+            background: #f8fafc;
+            transition: all 0.2s ease;
+        }
+        .drag-zone.dragover {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto flex justify-between items-center mb-8">
+        <div class="flex items-center gap-3">
+            <div class="bg-blue-600 p-2.5 rounded-xl shadow-lg shadow-blue-600/20">
+                <i class="fa-solid fa-shield-halved text-2xl text-white"></i>
+            </div>
+            <div>
+                <h1 class="text-xl md:text-2xl font-bold tracking-wide text-slate-900">V-Manager <span class="text-blue-600 font-medium">Pro</span></h1>
+                <p class="text-[10px] text-slate-500 font-medium tracking-wider uppercase hidden sm:block">Central Management System</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-2">
+            <button onclick="openAdminModal()" class="bg-slate-900 hover:bg-slate-800 text-white px-3 py-2 rounded-xl font-semibold flex items-center gap-1.5 text-xs transition shadow-sm">
+                <i class="fa-solid fa-user-check text-blue-400"></i> এডমিন প্যানেল
+            </button>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto">
+        
+        <div id="formPage" class="transition-all duration-300 block">
+            <div class="corporate-card p-6 md:p-8 rounded-2xl relative overflow-hidden max-w-2xl mx-auto">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
+                
+                <div class="mb-6">
+                    <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-address-card text-blue-600"></i> নতুন সদস্য নিবন্ধন ফরম
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-1">সঠিক তথ্য দিয়ে নিচের ফরমটি পূরণ করুন। (বড় ছবি অটোমেটিক ছোট হবে)</p>
+                </div>
+                
+                <form id="volunteerForm" onsubmit="handleRegistration(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">সদস্যের নাম</label>
+                            <input type="text" id="name" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">পিতার নাম</label>
+                            <input type="text" id="fatherName" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">মোবাইল নম্বর</label>
+                        <input type="tel" id="mobile" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">ঠিকানা</label>
+                        <textarea id="address" rows="2" required class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"></textarea>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">রক্তের গ্রুপ</label>
+                            <select id="bloodGroup" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 transition">
+                                <option value="">বাছাই করুন</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">এসএসসি ব্যাচ</label>
+                            <select id="sscBatch" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 transition">
+                                <option value="">বাছাই করুন</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">বিভাগ / ক্যাটাগরি</label>
+                            <select id="category" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-blue-500 transition">
+                                <option value="">বাছাই করুন</option>
+                                <option value="শৃংখলা বিভাগ">শৃংখলা বিভাগ</option>
+                                <option value="আপ্যায়ন বিভাগ">আপ্যায়ন বিভাগ</option>
+                                <option value="সাংস্কৃতিক বিভাগ">সাংস্কৃতিক বিভাগ</option>
+                                <option value="অভ্যর্থনা বিভাগ">অভ্যর্থনা বিভাগ</option>
+                                <option value="মিডিয়া ও আইটি">মিডিয়া ও আইটি</option>
+                                <option value="সাধারণ সদস্য">সাধারণ সদস্য</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">সদস্যের ছবি (যেকোনো সাইজ - অটো কম্প্রেস হবে)</label>
+                        <div id="dropZone" class="drag-zone rounded-xl p-6 text-center cursor-pointer relative border-2 flex flex-col items-center justify-center min-h-[130px]">
+                            <input type="file" id="photo" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20">
+                            
+                            <div id="dropZonePrompt" class="space-y-1">
+                                <div class="text-3xl text-slate-400"><i class="fa-solid fa-cloud-arrow-up text-blue-500"></i></div>
+                                <p class="text-xs font-semibold text-slate-600">এখানে ছবি ড্রাগ করে ছাড়ুন অথবা <span class="text-blue-600">ব্রাউজ করুন</span></p>
+                                <p class="text-[10px] text-slate-400">PNG, JPG বা JPEG</p>
+                            </div>
+                            
+                            <div id="dropZonePreview" class="hidden flex items-center gap-4 text-left bg-white p-2 rounded-lg border border-slate-200 shadow-sm z-10">
+                                <img id="previewImg" src="#" class="w-14 h-14 object-cover rounded-md border border-slate-300">
+                                <div>
+                                    <p id="previewFileName" class="text-xs font-bold text-slate-800 truncate max-w-[180px]"></p>
+                                    <p id="compressionStatus" class="text-[9px] text-emerald-600 font-semibold"></p>
+                                    <button type="button" onclick="clearUploadedPhoto(event)" class="text-[11px] text-rose-500 font-medium hover:underline mt-0.5"><i class="fa-solid fa-trash-can"></i> রিমুভ করুন</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="submitBtn" type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-blue-600/10 text-sm">
+                        সংরক্ষণ ও সাবমিট করুন
+                    </button>
+                </form>
+
+                <div id="statusMessage" class="hidden absolute inset-0 bg-white/95 flex flex-col items-center justify-center p-6 text-center z-30">
+                    <div class="w-14 h-14 bg-emerald-50 text-emerald-500 border border-emerald-200 rounded-full flex items-center justify-center text-2xl mb-3 shadow-sm">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-1">নিবন্ধন সফল হয়েছে!</h3>
+                    <p class="text-xs text-slate-500 max-w-xs leading-relaxed">মেম্বারের ডাটা নির্দিষ্ট ক্যাটাগরি ফাইলে সফলভাবে সংরক্ষণ করা হয়েছে।</p>
+                    <button onclick="resetFormView()" class="mt-5 bg-slate-900 text-xs text-white px-5 py-2.5 rounded-xl hover:bg-slate-800 transition font-medium shadow-sm">নতুন মেম্বার ফরম</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="dashboardPage" class="hidden transition-all duration-300">
+            <div class="corporate-card p-6 md:p-8 rounded-2xl w-full flex flex-col">
+                
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6 border-b border-slate-200 pb-4">
+                    <div>
+                        <div id="panelTitle" class="text-slate-900 font-bold flex items-center gap-2 text-base md:text-lg"></div>
+                        <p class="text-[11px] text-slate-500 font-medium mt-0.5">ফাইল ডিরেক্টরি লোড করা হয়েছে</p>
+                    </div>
+                    
+                    <div class="flex items-center gap-3 justify-end">
+                        <button onclick="backToForm()" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 px-4 py-2 rounded-xl font-semibold flex items-center gap-1.5 text-xs transition shadow-sm">
+                            <i class="fa-solid fa-right-from-bracket rotate-180"></i> ফিরে যান
+                        </button>
+                    </div>
+                </div>
+
+                <div id="folderViewZone" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4"></div>
+
+                <div id="fileViewZone" class="hidden space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                        <button onclick="exitFolderView()" class="text-xs text-blue-600 hover:text-blue-700 font-bold flex items-center gap-1">
+                            <i class="fa-solid fa-chevron-left text-[10px]"></i> <i class="fa-solid fa-folder-open"></i> ফোল্ডার তালিকায় ব্যাক করুন
+                        </button>
+                        <h3 id="currentActiveFolderName" class="text-xs md:text-sm font-bold text-slate-800 text-center"></h3>
+                        <button id="downloadBtn" onclick="downloadCSV()" class="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-lg hover:bg-emerald-700 transition font-medium shadow-sm flex items-center gap-1"><i class="fa-solid fa-file-excel"></i> Excel ডাউনলোড</button>
+                    </div>
+                    
+                    <div class="overflow-y-auto max-h-[460px] pr-1 custom-scrollbar space-y-2.5" id="innerMembersContainer"></div>
+                </div>
+
+                <div id="profileViewZone" class="hidden space-y-4">
+                    <div class="flex justify-between items-center bg-slate-900 text-white p-3 rounded-xl">
+                        <button onclick="exitProfileView()" class="bg-white/10 hover:bg-white/20 text-white text-xs px-4 py-2 rounded-lg font-bold flex items-center gap-1.5 transition">
+                            <i class="fa-solid fa-arrow-left"></i> ব্যাক বাটন
+                        </button>
+                        <h3 class="text-xs md:text-sm font-bold tracking-wide"><i class="fa-solid fa-id-card text-blue-400"></i> মেম্বার প্রোফাইল ও আইডি কার্ড</h3>
+                        <div class="w-20"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                        <div class="flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-slate-200 pb-6 md:pb-0 md:pr-6">
+                            <div class="text-slate-500 font-bold text-xs mb-3 uppercase tracking-wider">রঙিন আইডি কার্ড প্রিভিউ</div>
+                            <div id="idCardImageWrapper" class="relative max-w-full overflow-hidden rounded-xl border border-slate-300 shadow-lg"></div>
+                        </div>
+
+                        <div class="flex flex-col justify-center space-y-3">
+                            <div class="border-b border-slate-100 pb-2">
+                                <span class="bg-blue-50 text-blue-600 font-bold text-[11px] px-2.5 py-1 rounded-md uppercase tracking-wider" id="profCategory"></span>
+                            </div>
+                            <div class="grid grid-cols-1 gap-3 text-slate-700 text-sm">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
+                                    <p class="text-[11px] font-bold text-slate-400 uppercase">সদস্যের নাম</p>
+                                    <p class="font-bold text-slate-900 text-base mt-0.5" id="profName"></p>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
+                                    <p class="text-[11px] font-bold text-slate-400 uppercase">পিতার নাম</p>
+                                    <p class="font-semibold text-slate-800 mt-0.5" id="profFather"></p>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
+                                        <p class="text-[11px] font-bold text-slate-400 uppercase">এসএসসি ব্যাচ</p>
+                                        <p class="font-bold text-slate-800 mt-0.5" id="profBatch"></p>
+                                    </div>
+                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
+                                        <p class="text-[11px] font-bold text-slate-400 uppercase">রক্তের গ্রুপ</p>
+                                        <p class="font-bold text-rose-600 mt-0.5 text-base" id="profBlood"></p>
+                                    </div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
+                                    <p class="text-[11px] font-bold text-slate-400 uppercase">মোবাইল নম্বর</p>
+                                    <a href="#" id="profMobileLink" class="font-bold text-blue-600 hover:underline inline-flex items-center gap-1.5 mt-0.5"><i class="fa-solid fa-phone text-xs"></i> <span id="profMobile"></span></a>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
+                                    <p class="text-[11px] font-bold text-slate-400 uppercase">ঠিকানা</p>
+                                    <p class="text-slate-600 leading-relaxed mt-0.5" id="profAddress"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div id="adminAuthModal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-white p-6 rounded-2xl w-full max-w-xs border border-slate-200 relative shadow-xl">
+            <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+            <div class="text-center mb-4">
+                <div class="w-10 h-10 bg-blue-50 text-blue-600 border border-blue-100 rounded-full flex items-center justify-center text-lg mx-auto mb-2"><i class="fa-solid fa-lock"></i></div>
+                <h3 class="text-sm font-bold text-slate-900">অ্যাডমিন সিকিউরিটি কী</h3>
+            </div>
+            <input type="password" id="adminPassword" placeholder="••••••••" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2 text-center text-slate-900 font-bold tracking-widest focus:outline-none focus:border-blue-500 text-sm mb-3">
+            <p id="adminAuthError" class="hidden text-rose-500 text-xs text-center font-semibold mb-3">❌ পাসওয়ার্ড ভুল!</p>
+            <button onclick="verifyAdminAuth()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-xl transition text-sm">প্যানেল আনলক</button>
+        </div>
+    </div>
+
+    <canvas id="cardCanvas" class="hidden"></canvas>
+    <canvas id="compressorCanvas" class="hidden"></canvas>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Firebase Web App Configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyCbUltmunGozW__bKJTeCmcCuu-3zdZtkM",
+          authDomain: "programm-2026.firebaseapp.com",
+          projectId: "programm-2026",
+          storageBucket: "programm-2026.firebasestorage.app",
+          messagingSenderId: "49101119692",
+          appId: "1:49101119692:web:7a499a78fd746b23066269",
+          measurementId: "G-6QVZMJHCZM"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Global state array
+        window.volunteers = [];
+        window.currentRole = ""; 
+        window.selectedFolder = "";
+
+        const categoryList = ["শৃংখলা বিভাগ", "আপ্যায়ন বিভাগ", "সাংস্কৃতিক বিভাগ", "অভ্যর্থনা বিভাগ", "মিডিয়া ও আইটি", "সাধারণ সদস্য"];
+
+        // SSC Batch Dropdown Generator
+        const sscDropdown = document.getElementById('sscBatch');
+        for (let y = 2026; y >= 1970; y--) {
+            let op = document.createElement('option');
+            op.value = y;
+            op.innerText = `${y} ব্যাচ`;
+            sscDropdown.appendChild(op);
+        }
+
+        // Dropzone & Image Handling
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('photo');
+        const dropZonePrompt = document.getElementById('dropZonePrompt');
+        const dropZonePreview = document.getElementById('dropZonePreview');
+        const previewImg = document.getElementById('previewImg');
+        const previewFileName = document.getElementById('previewFileName');
+        const compressionStatus = document.getElementById('compressionStatus');
+        
+        let currentBase64Photo = "";
+
+        function compressImageEngine(base64Str, maxWidth, maxHeight, quality, callback) {
+            const img = new Image();
+            img.src = base64Str;
+            img.onload = function() {
+                const canvas = document.getElementById('compressorCanvas');
+                const ctx = canvas.getContext('2d');
+                let width = img.width;
+                let height = img.height;
+
+                if (width > height) {
+                    if (width > maxWidth) { height *= maxWidth / width; width = maxWidth; }
+                } else {
+                    if (height > maxHeight) { width *= maxHeight / height; height = maxHeight; }
+                }
+                canvas.width = width;
+                canvas.height = height;
+                ctx.clearRect(0, 0, width, height);
+                ctx.drawImage(img, 0, 0, width, height);
+
+                const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+                callback(compressedBase64);
+            };
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => { e.preventDefault(); dropZone.classList.add('dragover'); }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); }, false);
+        });
+
+        fileInput.addEventListener('change', function(e) { processFileBlob(e.target.files[0]); });
+
+        function processFileBlob(file) {
+            if (file && file.type.startsWith('image/')) {
+                previewFileName.innerText = file.name;
+                compressionStatus.innerText = "⚡ প্রসেসিং ও কম্প্রেশন হচ্ছে...";
+                const r = new FileReader();
+                r.onload = function(event) {
+                    compressImageEngine(event.target.result, 400, 400, 0.7, function(compressedResult) {
+                        currentBase64Photo = compressedResult;
+                        previewImg.src = compressedResult;
+                        compressionStatus.innerText = "✅ অটো-কম্প্রেসড সফল (Optimized)";
+                        dropZonePrompt.classList.add('hidden');
+                        dropZonePreview.classList.remove('hidden');
+                    });
+                };
+                r.readAsDataURL(file);
+            }
+        }
+        window.clearUploadedPhoto = function(event) {
+            if (event) { event.stopPropagation(); event.preventDefault(); }
+            fileInput.value = "";
+            currentBase64Photo = "";
+            dropZonePreview.classList.add('hidden');
+            dropZonePrompt.classList.remove('hidden');
+        }
+
+        // Firebase Cloud Firestore এ ডাটা আপলোড ইঞ্জিন 👇
+        window.handleRegistration = async function(e) {
+            e.preventDefault();
+            if(!currentBase64Photo) {
+                alert("অনুগ্রহ করে মেম্বারের একটি ছবি আপলোড করুন।");
+                return;
+            }
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerText = "সংরক্ষণ হচ্ছে... অনুগ্রহ করে অপেক্ষা করুন...";
+
+            try {
+                const data = {
+                    uid: 'REG-' + Date.now(),
+                    name: document.getElementById('name').value,
+                    fatherName: document.getElementById('fatherName').value,
+                    mobile: document.getElementById('mobile').value,
+                    address: document.getElementById('address').value,
+                    bloodGroup: document.getElementById('bloodGroup').value,
+                    sscBatch: document.getElementById('sscBatch').value,
+                    category: document.getElementById('category').value,
+                    photo: currentBase64Photo,
+                    createdAt: new Date().toISOString()
+                };
+
+                // 'premium_volunteers' কালেকশনে ডকুমেন্ট অ্যাড করা
+                await addDoc(collection(db, "premium_volunteers"), data);
+
+                document.getElementById('statusMessage').classList.remove('hidden');
+                document.getElementById('volunteerForm').reset();
+                clearUploadedPhoto(null);
+            } catch (error) {
+                console.error("Firebase Error: ", error);
+                alert("সার্ভারে ডাটা সংরক্ষণ করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "সংরক্ষণ ও সাবমিট করুন";
+            }
+        }
+
+        window.resetFormView = function() { document.getElementById('statusMessage').classList.add('hidden'); }
+
+        // Firebase থেকে লাইভ ডেটা ফেচ করার ড্যাশবোর্ড লজিক 👇
+        async function fetchVolunteersFromFirebase() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "premium_volunteers"));
+                window.volunteers = [];
+                querySnapshot.forEach((doc) => {
+                    let docData = doc.data();
+                    docData.id = doc.id; // Firebase Document ID সংরক্ষণের জন্য
+                    window.volunteers.push(docData);
+                });
+            } catch (error) {
+                console.error("Error fetching documents: ", error);
+            }
+        }
+
+        window.openAdminModal = function() {
+            document.getElementById('adminAuthModal').classList.remove('hidden');
+            document.getElementById('adminAuthError').classList.add('hidden');
+            document.getElementById('adminPassword').value = "";
+            document.getElementById('adminPassword').focus();
+        }
+        window.closeAdminModal = function() { document.getElementById('adminAuthModal').classList.add('hidden'); }
+
+        window.verifyAdminAuth = async function() {
+            if(document.getElementById('adminPassword').value === '1234') {
+                closeAdminModal();
+                window.currentRole = "admin";
+                
+                // ড্যাশবোর্ড খোলার আগে Firebase থেকে ফ্রেশ ডাটা আনা হবে
+                const folderZone = document.getElementById('folderViewZone');
+                folderZone.innerHTML = `<div class="col-span-full text-center py-6 text-slate-600 font-semibold"><i class="fa-solid fa-spinner fa-spin text-blue-600 text-xl mr-2"></i> Firebase ক্লাউড থেকে ডাটা সিঙ্ক হচ্ছে...</div>`;
+                
+                launchDashboard("অ্যাডমিন ফাইল ডিরেক্টরি প্যানেল");
+                await fetchVolunteersFromFirebase();
+                renderFolders();
+            } else {
+                document.getElementById('adminAuthError').classList.remove('hidden');
+            }
+        }
+
+        function launchDashboard(titleText) {
+            document.getElementById('formPage').classList.replace('block', 'hidden');
+            document.getElementById('dashboardPage').classList.replace('hidden', 'block');
+            document.getElementById('panelTitle').innerHTML = `<i class="fa-solid fa-folder-tree text-blue-600"></i> ${titleText}`;
+            exitFolderView();
+        }
+
+        window.backToForm = function() {
+            document.getElementById('dashboardPage').classList.replace('block', 'hidden');
+            document.getElementById('formPage').classList.replace('hidden', 'block');
+        }
+
+        function renderFolders() {
+            const folderZone = document.getElementById('folderViewZone');
+            folderZone.innerHTML = "";
+
+            categoryList.forEach(cat => {
+                const count = window.volunteers.filter(v => v.category === cat).length;
+                folderZone.innerHTML += `
+                    <div onclick="enterFolder('${cat}')" class="folder-card p-4 rounded-xl cursor-pointer text-center flex flex-col items-center justify-center">
+                        <div class="text-4xl text-blue-500 mb-1.5 filter drop-shadow-sm"><i class="fa-solid fa-folder"></i></div>
+                        <h4 class="text-xs md:text-sm font-bold text-slate-800 truncate w-full">${cat}</h4>
+                        <span class="bg-slate-100 text-[10px] px-2 py-0.5 rounded-md border border-slate-200 text-slate-500 font-medium mt-1.5">${count}টি ফাইল</span>
+                    </div>
+                `;
+            });
+        }
+        window.renderFolders = renderFolders;
+
+        window.enterFolder = function(categoryName) {
+            window.selectedFolder = categoryName;
+            document.getElementById('folderViewZone').classList.add('hidden');
+            document.getElementById('fileViewZone').classList.remove('hidden');
+            document.getElementById('profileViewZone').classList.add('hidden');
+            document.getElementById('currentActiveFolderName').innerText = `📂 ডিরেক্টরি: ${categoryName}`;
+            renderFolderFiles();
+        }
+
+        function exitFolderView() {
+            document.getElementById('fileViewZone').classList.add('hidden');
+            document.getElementById('profileViewZone').classList.add('hidden');
+            document.getElementById('folderViewZone').classList.remove('hidden');
+            renderFolders();
+        }
+        window.exitFolderView = exitFolderView;
+
+        function renderFolderFiles() {
+            const container = document.getElementById('innerMembersContainer');
+            container.innerHTML = "";
+
+            const list = window.volunteers.filter(v => v.category === window.selectedFolder);
+
+            if(list.length === 0) {
+                container.innerHTML = `<div class="text-center py-12 text-slate-400 text-xs font-medium"><i class="fa-solid fa-file-excel text-2xl mb-1.5 block text-slate-300"></i>এই ফোল্ডারে কোনো ফাইল রেকর্ড পাওয়া যায়নি</div>`;
+                return;
+            }
+
+            list.forEach(v => {
+                const deleteAction = (window.currentRole === 'admin') 
+                    ? `<button onclick="deleteMember('${v.id}')" class="text-slate-400 hover:text-rose-500 p-2 transition text-xs" title="ডিলিট"><i class="fa-solid fa-trash-can"></i></button>` 
+                    : '';
+
+                container.innerHTML += `
+                    <div class="bg-white border border-slate-200 p-3 rounded-xl flex items-center justify-between gap-3 shadow-sm">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <img src="${v.photo}" class="w-11 h-11 rounded-lg object-cover border border-slate-200 shrink-0">
+                            <div class="min-w-0">
+                                <h4 class="font-bold text-slate-800 text-xs md:text-sm truncate">${v.name}</h4>
+                                <p class="text-[11px] text-slate-500 mt-0.5">ব্যাচ: ${v.sscBatch} | রক্ত: <span class="text-rose-600 font-bold">${v.bloodGroup}</span></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-1.5 shrink-0">
+                            <button onclick="openProfileShowcase('${v.id}')" class="bg-emerald-50 hover:bg-emerald-600 text-emerald-600 hover:text-white border border-emerald-200 px-3 py-2 rounded-xl text-xs transition font-bold" title="কার্ড ভিউ"><i class="fa-solid fa-eye"></i> ভিউ</button>
+                            <button onclick="generateDynamicCard('${v.id}', 'download')" class="bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white border border-blue-200 p-2 rounded-xl text-xs transition" title="কার্ড ডাউনলোড"><i class="fa-solid fa-download"></i></button>
+                            ${deleteAction}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        window.renderFolderFiles = renderFolderFiles;
+
+        window.openProfileShowcase = function(memberId) {
+            const v = window.volunteers.find(m => m.id === memberId);
+            if(!v) return;
+
+            document.getElementById('profName').innerText = v.name;
+            document.getElementById('profFather').innerText = v.fatherName;
+            document.getElementById('profBatch').innerText = v.sscBatch + " ব্যাচ";
+            document.getElementById('profBlood').innerText = v.bloodGroup;
+            document.getElementById('profMobile').innerText = v.mobile;
+            document.getElementById('profMobileLink').href = `tel:${v.mobile}`;
+            document.getElementById('profAddress').innerText = v.address;
+            document.getElementById('profCategory').innerText = v.category;
+
+            const wrapper = document.getElementById('idCardImageWrapper');
+            wrapper.innerHTML = `<div class="p-8 text-slate-400 text-xs font-semibold animate-pulse"><i class="fa-solid fa-spinner fa-spin text-blue-500 text-lg mb-1 block text-center"></i>রঙিন কার্ড লোড হচ্ছে...</div>`;
+
+            generateDynamicCard(memberId, 'inject', function(dataUrl) {
+                wrapper.innerHTML = `<img src="${dataUrl}" class="w-[280px] h-[396px] object-cover animate-fade-in">`;
+            });
+
+            document.getElementById('fileViewZone').classList.add('hidden');
+            document.getElementById('profileViewZone').classList.remove('hidden');
+        }
+
+        window.exitProfileView = function() {
+            document.getElementById('profileViewZone').classList.add('hidden');
+            document.getElementById('fileViewZone').classList.remove('hidden');
+        }
+
+        // Firebase Cloud Database থেকে ফাইল ডিলিট করার মেথড 👇
+        window.deleteMember = async function(id) {
+            if(confirm("ফাইলটি Firebase ক্লাউড সার্ভার থেকে চিরতরে ডিলিট করতে চান?")) {
+                try {
+                    await deleteDoc(doc(db, "premium_volunteers", id));
+                    window.volunteers = window.volunteers.filter(v => v.id !== id);
+                    renderFolderFiles();
+                    renderFolders(); 
+                } catch (error) {
+                    console.error("Error deleting document: ", error);
+                    alert("ফাইলটি ডিলিট করা সম্ভব হয়নি।");
+                }
+            }
+        }
+
+        // dynamic card rendering engine
+        window.generateDynamicCard = function(memberId, mode, callback) {
+            const v = window.volunteers.find(m => m.id === memberId);
+            if(!v) return;
+
+            const canvas = document.getElementById('cardCanvas');
+            const ctx = canvas.getContext('2d');
+
+            const templateImg = new Image();
+            templateImg.crossOrigin = "anonymous"; 
+            templateImg.src = 'https://i.ibb.co.com/84DndQNp/IMG-20260616-WA0090.jpg'; 
+
+            templateImg.onload = function() {
+                canvas.width = 723;
+                canvas.height = 1024;
+                ctx.drawImage(templateImg, 0, 0, 723, 1024);
+
+                const userImg = new Image();
+                userImg.src = v.photo;
+
+                userImg.onload = function() {
+                    ctx.drawImage(userImg, 168, 258, 390, 398);
+                    ctx.fillStyle = "#1e293b"; 
+                    ctx.font = "bold 28px 'Hind Siliguri', sans-serif";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle"; 
+                    ctx.fillText(v.name, 361, 735);
+
+                    const dataUrl = canvas.toDataURL('image/jpeg', 1.0);
+
+                    if (mode === 'download') {
+                        const link = document.createElement('a');
+                        link.download = `${v.name}_Alumni_Card.jpg`;
+                        link.href = dataUrl; 
+                        link.click();
+                    } else if (mode === 'inject' && callback) {
+                        callback(dataUrl);
+                    }
+                };
+            };
+        }
+
+        // CSV Downloader
+        window.downloadCSV = function() {
+            const list = window.volunteers.filter(v => v.category === window.selectedFolder);
+            if(list.length === 0) return;
+            let csv = "\uFEFFID,Name,Father's Name,Mobile,Address,Blood Group,SSC Batch,Category\n";
+            list.forEach(v => {
+                let cleanAddress = v.address.replace(/,/g, ' -');
+                csv += `"${v.id}","${v.name}","${v.fatherName}","${v.mobile}","${cleanAddress}","${v.bloodGroup}","${v.sscBatch}","${v.category}"\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `${window.selectedFolder}_List.csv`;
+            link.click();
+        }
+
+        document.getElementById('adminPassword').addEventListener('keypress', function(e) { if(e.key === 'Enter') verifyAdminAuth(); });
+    </script>
+</body>
+</html>
