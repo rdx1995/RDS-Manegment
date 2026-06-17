@@ -160,13 +160,14 @@
                     </button>
                 </form>
 
-                <div id="statusMessage" class="hidden absolute inset-0 bg-white/95 flex flex-col items-center justify-center p-6 text-center z-30">
-                    <div class="w-14 h-14 bg-emerald-50 text-emerald-500 border border-emerald-200 rounded-full flex items-center justify-center text-2xl mb-3 shadow-sm">
+                <!-- প্রিমিয়াম সাকসেস মেসেজ স্ক্রিন 👇 -->
+                <div id="statusMessage" class="hidden absolute inset-0 bg-slate-900/95 flex flex-col items-center justify-center p-6 text-center z-30 transition-all duration-300">
+                    <div class="w-16 h-16 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-full flex items-center justify-center text-3xl mb-4 shadow-lg shadow-emerald-500/10 animate-bounce">
                         <i class="fa-solid fa-circle-check"></i>
                     </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-1">নিবন্ধন সফল হয়েছে!</h3>
-                    <p class="text-xs text-slate-500 max-w-xs leading-relaxed">মেম্বারের ডাটা নির্দিষ্ট ক্যাটাগরি ফাইলে সফলভাবে সংরক্ষণ করা হয়েছে।</p>
-                    <button onclick="resetFormView()" class="mt-5 bg-slate-900 text-xs text-white px-5 py-2.5 rounded-xl hover:bg-slate-800 transition font-medium shadow-sm">নতুন মেম্বার ফরম</button>
+                    <h3 class="text-xl font-bold text-white mb-2 tracking-wide">আবেদন সফলভাবে সম্পন্ন হয়েছে!</h3>
+                    <p class="text-xs text-slate-400 max-w-xs leading-relaxed mb-6">মেম্বারের ডিজিটাল প্রোফাইল এবং রঙিন আইডি কার্ড প্রিমিয়াম ফাইল ডিরেক্টরিতে সংরক্ষণ করা হয়েছে।</p>
+                    <button onclick="resetFormView()" class="bg-gradient-to-r from-blue-600 to-indigo-600 text-xs text-white px-6 py-3 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition font-bold shadow-md shadow-blue-600/20 tracking-wider">নতুন সদস্য ফরম খুলুন</button>
                 </div>
             </div>
         </div>
@@ -273,11 +274,12 @@
     <canvas id="cardCanvas" class="hidden"></canvas>
     <canvas id="compressorCanvas" class="hidden"></canvas>
 
+    <!-- Firebase SDK ও রিয়েলটাইম ডাটাবেস লজিক (আপডেটেড) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getDatabase, ref, set, push, get, child, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Firebase Web App Configuration
+        // Firebase Configuration
         const firebaseConfig = {
           apiKey: "AIzaSyCbUltmunGozW__bKJTeCmcCuu-3zdZtkM",
           authDomain: "programm-2026.firebaseapp.com",
@@ -288,9 +290,9 @@
           measurementId: "G-6QVZMJHCZM"
         };
 
-        // Initialize Firebase
+        // Initialize Firebase & Database
         const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        const db = getDatabase(app);
 
         // Global state array
         window.volunteers = [];
@@ -378,7 +380,7 @@
             dropZonePrompt.classList.remove('hidden');
         }
 
-        // Firebase Cloud Firestore এ ডাটা আপলোড ইঞ্জিন 👇
+        // Realtime Database ডাটা আপলোড মেথড 👇
         window.handleRegistration = async function(e) {
             e.preventDefault();
             if(!currentBase64Photo) {
@@ -390,7 +392,11 @@
             submitBtn.innerText = "সংরক্ষণ হচ্ছে... অনুগ্রহ করে অপেক্ষা করুন...";
 
             try {
+                const volunteersRef = ref(db, 'premium_volunteers');
+                const newVolunteerRef = push(volunteersRef); 
+
                 const data = {
+                    id: newVolunteerRef.key, 
                     uid: 'REG-' + Date.now(),
                     name: document.getElementById('name').value,
                     fatherName: document.getElementById('fatherName').value,
@@ -403,16 +409,17 @@
                     createdAt: new Date().toISOString()
                 };
 
-                // 'premium_volunteers' কালেকশনে ডকুমেন্ট অ্যাড করা
-                await addDoc(collection(db, "premium_volunteers"), data);
+                await set(newVolunteerRef, data);
 
+                // সফল হলে সাকসেস স্ক্রিন শো করবে
                 document.getElementById('statusMessage').classList.remove('hidden');
                 document.getElementById('volunteerForm').reset();
                 clearUploadedPhoto(null);
             } catch (error) {
-                console.error("Firebase Error: ", error);
-                alert("সার্ভারে ডাটা সংরক্ষণ করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+                console.error("Database Error: ", error);
+                alert("সার্ভারে ডাটা সংরক্ষণ করতে সমস্যা হয়েছে।");
             } finally {
+                // বাটন আগের অবস্থায় ফিরিয়ে আনা
                 submitBtn.disabled = false;
                 submitBtn.innerText = "সংরক্ষণ ও সাবমিট করুন";
             }
@@ -420,18 +427,21 @@
 
         window.resetFormView = function() { document.getElementById('statusMessage').classList.add('hidden'); }
 
-        // Firebase থেকে লাইভ ডেটা ফেচ করার ড্যাশবোর্ড লজিক 👇
-        async function fetchVolunteersFromFirebase() {
+        // Realtime Database থেকে ফ্রেশ ডেটা ফেচ করার লজিক 👇
+        async function fetchVolunteersFromRealtimeDB() {
             try {
-                const querySnapshot = await getDocs(collection(db, "premium_volunteers"));
+                const dbRef = ref(db);
+                const snapshot = await get(child(dbRef, 'premium_volunteers'));
                 window.volunteers = [];
-                querySnapshot.forEach((doc) => {
-                    let docData = doc.data();
-                    docData.id = doc.id; // Firebase Document ID সংরক্ষণের জন্য
-                    window.volunteers.push(docData);
-                });
+                if (snapshot.exists()) {
+                    snapshot.forEach((childSnapshot) => {
+                        let docData = childSnapshot.val();
+                        docData.id = childSnapshot.key; 
+                        window.volunteers.push(docData);
+                    });
+                }
             } catch (error) {
-                console.error("Error fetching documents: ", error);
+                console.error("Error fetching data: ", error);
             }
         }
 
@@ -448,12 +458,11 @@
                 closeAdminModal();
                 window.currentRole = "admin";
                 
-                // ড্যাশবোর্ড খোলার আগে Firebase থেকে ফ্রেশ ডাটা আনা হবে
                 const folderZone = document.getElementById('folderViewZone');
-                folderZone.innerHTML = `<div class="col-span-full text-center py-6 text-slate-600 font-semibold"><i class="fa-solid fa-spinner fa-spin text-blue-600 text-xl mr-2"></i> Firebase ক্লাউড থেকে ডাটা সিঙ্ক হচ্ছে...</div>`;
+                folderZone.innerHTML = `<div class="col-span-full text-center py-6 text-slate-600 font-semibold"><i class="fa-solid fa-spinner fa-spin text-blue-600 text-xl mr-2"></i> Realtime DB থেকে ডাটা সিঙ্ক হচ্ছে...</div>`;
                 
                 launchDashboard("অ্যাডমিন ফাইল ডিরেক্টরি প্যানেল");
-                await fetchVolunteersFromFirebase();
+                await fetchVolunteersFromRealtimeDB();
                 renderFolders();
             } else {
                 document.getElementById('adminAuthError').classList.remove('hidden');
@@ -571,22 +580,23 @@
             document.getElementById('fileViewZone').classList.remove('hidden');
         }
 
-        // Firebase Cloud Database থেকে ফাইল ডিলিট করার মেথড 👇
+        // Realtime Database ডিলিট মেথড 👇
         window.deleteMember = async function(id) {
-            if(confirm("ফাইলটি Firebase ক্লাউড সার্ভার থেকে চিরতরে ডিলিট করতে চান?")) {
+            if(confirm("ফাইলটি রিয়েলটাইম ডাটাবেস থেকে চিরতরে ডিলিট করতে চান?")) {
                 try {
-                    await deleteDoc(doc(db, "premium_volunteers", id));
+                    const nodeRef = ref(db, `premium_volunteers/${id}`);
+                    await remove(nodeRef);
                     window.volunteers = window.volunteers.filter(v => v.id !== id);
                     renderFolderFiles();
                     renderFolders(); 
                 } catch (error) {
-                    console.error("Error deleting document: ", error);
+                    console.error("Error deleting node: ", error);
                     alert("ফাইলটি ডিলিট করা সম্ভব হয়নি।");
                 }
             }
         }
 
-        // dynamic card rendering engine
+        // Dynamic Card Rendering Engine
         window.generateDynamicCard = function(memberId, mode, callback) {
             const v = window.volunteers.find(m => m.id === memberId);
             if(!v) return;
