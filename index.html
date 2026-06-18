@@ -43,6 +43,14 @@
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        
+        /* Toggle Switch Styling */
+        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #10b981; }
+        input:checked + .slider:before { transform: translateX(24px); }
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-8 flex flex-col justify-between">
@@ -67,6 +75,17 @@
         </div>
 
         <div class="w-full">
+            
+            <div id="regClosedNotice" class="hidden transition-all duration-300 max-w-xl mx-auto text-center bg-white border border-rose-200 p-8 rounded-2xl shadow-xl">
+                <div class="w-16 h-16 bg-rose-50 border border-rose-200 rounded-full flex items-center justify-center text-3xl text-rose-500 mx-auto mb-4 animate-pulse">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">আবেদন বন্ধ আছে—</h2>
+                <p class="text-sm text-slate-600 mb-6">পরবর্তী নির্দেশনার জন্য অনুগ্রহ করে ডেভোলোপার এর সাথে যোগাযোগ করুন।</p>
+                <a href="https://wa.me/8801763752653" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl shadow-md transition text-sm">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp-এ যোগাযোগ করুন
+                </a>
+            </div>
             
             <div id="formPage" class="transition-all duration-300 block">
                 <div class="corporate-card p-6 md:p-8 rounded-2xl relative overflow-hidden max-w-2xl mx-auto">
@@ -184,26 +203,44 @@
             <div id="dashboardPage" class="hidden transition-all duration-300">
                 <div class="corporate-card p-6 md:p-8 rounded-2xl w-full flex flex-col">
                     
-                    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6 border-b border-slate-200 pb-4">
+                    <div class="flex flex-col lg:flex-row justify-between lg:items-center gap-4 mb-6 border-b border-slate-200 pb-4">
                         <div>
                             <div id="panelTitle" class="text-slate-900 font-bold flex items-center gap-2 text-base md:text-lg"></div>
                             <p class="text-[11px] text-slate-500 font-medium mt-0.5">ফাইল ডিরেক্টরি লোড করা হয়েছে</p>
                         </div>
                         
-                        <div class="flex items-center gap-3 justify-end">
+                        <div class="flex flex-wrap items-center gap-4 justify-start lg:justify-end">
+                            <div class="flex items-center gap-2 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-sm">
+                                <span class="text-xs font-bold text-slate-700">আবেদন স্ট্যাটাস:</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="regToggleSwitch" onchange="toggleRegistrationStatus(this.checked)">
+                                    <span class="slider"></span>
+                                </label>
+                                <span id="switchStatusText" class="text-xs font-bold text-slate-500">লোডিং...</span>
+                            </div>
+
+                            <div class="relative max-w-xs w-full sm:w-64">
+                                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                                <input type="text" id="adminSearchInput" onkeyup="handleAdminSearch()" placeholder="নাম বা মোবাইল দিয়ে খুঁজুন..." class="w-full bg-white border border-slate-300 rounded-xl pl-9 pr-4 py-2 text-xs focus:outline-none focus:border-blue-500">
+                            </div>
+
+                            <button onclick="enterFolder('All')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl font-bold flex items-center gap-1.5 text-xs transition shadow-sm">
+                                <i class="fa-solid fa-database"></i> All Data
+                            </button>
+
                             <button onclick="backToForm()" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 px-4 py-2 rounded-xl font-semibold flex items-center gap-1.5 text-xs transition shadow-sm">
                                 <i class="fa-solid fa-right-from-bracket rotate-180"></i> ফিরে যান
                             </button>
                         </div>
                     </div>
 
-                    <div id="folderViewZone" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4"></div>
+                    <div id="folderViewZone" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4"></div>
 
                     <div id="fileViewZone" class="hidden space-y-4">
                         <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
                             <button onclick="exitFolderView()" class="text-xs text-blue-600 hover:text-blue-700 font-bold flex items-center gap-1">
                                 <i class="fa-solid fa-chevron-left text-[10px]"></i> <i class="fa-solid fa-folder-open"></i> ফোল্ডার তালিকায় ব্যাক করুন
-                        </button>
+                            </button>
                             <h3 id="currentActiveFolderName" class="text-xs md:text-sm font-bold text-slate-800 text-center"></h3>
                             <button id="downloadBtn" onclick="downloadCSV()" class="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-lg hover:bg-emerald-700 transition font-medium shadow-sm flex items-center gap-1"><i class="fa-solid fa-file-excel"></i> Excel ডাউনলোড</button>
                         </div>
@@ -346,7 +383,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, set, push, get, child, remove, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, set, push, get, child, remove, update, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         // Firebase Configuration
         const firebaseConfig = {
@@ -365,9 +402,53 @@
         window.volunteers = [];
         window.currentRole = ""; 
         window.selectedFolder = "";
+        window.isRegistrationOpen = true;
 
-        // Fixed Category Sync List (Updated to "স্বেচ্ছাসেবক (উপ-কমিটি)")
+        // Fixed Category Sync List
         const categoryList = ["মূল কমিটি", "শৃংখলা বিভাগ", "আপ্যায়ন বিভাগ", "সাংস্কৃতিক বিভাগ", "অভ্যর্থনা বিভাগ", "মিডিয়া ও আইটি", "স্বেচ্ছাসেবক (উপ-কমিটি)"];
+
+        // Listen for Realtime Registration Switch Status
+        const systemSettingsRef = ref(db, 'system_settings/registration_open');
+        onValue(systemSettingsRef, (snapshot) => {
+            const status = snapshot.exists() ? snapshot.val() : true;
+            window.isRegistrationOpen = status;
+            
+            // UI Handler for Public View
+            const formPage = document.getElementById('formPage');
+            const regClosedNotice = document.getElementById('regClosedNotice');
+            
+            if (status) {
+                if(window.currentRole !== "admin" || formPage.classList.contains('hidden') === false) {
+                    formPage.classList.replace('hidden', 'block');
+                }
+                regClosedNotice.classList.add('hidden');
+            } else {
+                formPage.classList.replace('block', 'hidden');
+                // Admin dashboard panels won't get overridden by closed screens
+                if (document.getElementById('dashboardPage').classList.contains('hidden')) {
+                    regClosedNotice.classList.remove('hidden');
+                }
+            }
+
+            // Sync Admin Toggle Switches if Rendered
+            const toggleSwitch = document.getElementById('regToggleSwitch');
+            const statusText = document.getElementById('switchStatusText');
+            if(toggleSwitch && statusText) {
+                toggleSwitch.checked = status;
+                statusText.innerText = status ? "চালু" : "বন্ধ";
+                statusText.className = status ? "text-xs font-bold text-emerald-600" : "text-xs font-bold text-rose-500";
+            }
+        });
+
+        // Toggle Switch Backend Engine
+        window.toggleRegistrationStatus = async function(isChecked) {
+            try {
+                await set(ref(db, 'system_settings/registration_open'), isChecked);
+            } catch (error) {
+                console.error(error);
+                alert("স্ট্যাটাস পরিবর্তন করা যায়নি।");
+            }
+        }
 
         // SSC Batch Dropdowns Generator
         const sscDropdown = document.getElementById('sscBatch');
@@ -432,6 +513,7 @@
         // Realtime Database Upload
         window.handleRegistration = async function(e) {
             e.preventDefault();
+            if(!window.isRegistrationOpen) { alert("দুঃখিত, বর্তমানে নিবন্ধন ফরম জমা নেওয়া বন্ধ আছে।"); return; }
             if(!currentBase64Photo) { alert("অনুগ্রহ করে মেম্বারের একটি ছবি আপলোড করুন।"); return; }
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true; submitBtn.innerText = "সংরক্ষণ হচ্ছে...";
@@ -480,8 +562,6 @@
                     snapshot.forEach((childSnapshot) => {
                         let docData = childSnapshot.val();
                         docData.id = childSnapshot.key; 
-                        
-                        // যদি কোনো পুরাতন ডাটা 'সাধারণ সদস্য' ক্যাটাগরিতে থাকে, তবে তা স্বয়ংক্রিয়ভাবে নতুন ফোল্ডারে রিডাইরেক্ট হবে
                         if(docData.category) {
                             docData.category = docData.category.trim();
                             if(docData.category === "সাধারণ সদস্য" || docData.category === "স্বেচ্ছাসেবক") {
@@ -504,9 +584,18 @@
         window.verifyAdminAuth = async function() {
             if(document.getElementById('adminPassword').value === '1234') {
                 closeAdminModal(); window.currentRole = "admin";
+                document.getElementById('regClosedNotice').classList.add('hidden');
                 document.getElementById('folderViewZone').innerHTML = `<div class="col-span-full text-center py-6 text-slate-600 font-semibold"><i class="fa-solid fa-spinner fa-spin text-blue-600 text-xl mr-2"></i> ডাটা সিঙ্ক হচ্ছে...</div>`;
                 launchDashboard("অ্যাডমিন ফাইল ডিরেক্টরি প্যানেল");
                 await fetchVolunteersFromRealtimeDB();
+                
+                // Set initial switch look inside admin panel
+                const toggleSwitch = document.getElementById('regToggleSwitch');
+                const statusText = document.getElementById('switchStatusText');
+                toggleSwitch.checked = window.isRegistrationOpen;
+                statusText.innerText = window.isRegistrationOpen ? "চালু" : "বন্ধ";
+                statusText.className = window.isRegistrationOpen ? "text-xs font-bold text-emerald-600" : "text-xs font-bold text-rose-500";
+                
                 renderFolders();
             } else { document.getElementById('adminAuthError').classList.remove('hidden'); }
         }
@@ -520,11 +609,17 @@
 
         window.backToForm = function() {
             document.getElementById('dashboardPage').classList.replace('block', 'hidden');
-            document.getElementById('formPage').classList.replace('hidden', 'block');
+            if (window.isRegistrationOpen) {
+                document.getElementById('formPage').classList.replace('hidden', 'block');
+            } else {
+                document.getElementById('regClosedNotice').classList.remove('hidden');
+            }
         }
 
         function renderFolders() {
             const folderZone = document.getElementById('folderViewZone'); folderZone.innerHTML = "";
+            
+            // 1. Render Specific Categories Folders
             categoryList.forEach(cat => {
                 const count = window.volunteers.filter(v => v.category === cat).length;
                 folderZone.innerHTML += `
@@ -535,6 +630,16 @@
                     </div>
                 `;
             });
+
+            // 2. Add an Extra Folder for 'All Data' Visual Shortcut
+            const totalCount = window.volunteers.length;
+            folderZone.innerHTML += `
+                <div onclick="enterFolder('All')" class="folder-card p-4 rounded-xl cursor-pointer text-center flex flex-col items-center justify-center border-blue-200 bg-blue-50/20">
+                    <div class="text-4xl text-indigo-600 mb-1.5 filter drop-shadow-sm"><i class="fa-solid fa-folder-open"></i></div>
+                    <h4 class="text-xs md:text-sm font-bold text-indigo-900 truncate w-full">All Data (সব তালিকা)</h4>
+                    <span class="bg-indigo-100 text-[10px] px-2 py-0.5 rounded-md border border-indigo-200 text-indigo-700 font-bold mt-1.5">${totalCount}টি ফাইল</span>
+                </div>
+            `;
         }
 
         window.enterFolder = function(name) {
@@ -543,8 +648,9 @@
             document.getElementById('fileViewZone').classList.remove('hidden');
             document.getElementById('profileViewZone').classList.add('hidden');
             document.getElementById('editViewZone').classList.add('hidden');
-            document.getElementById('currentActiveFolderName').innerText = `📂 ডিরেক্টরি: ${name}`;
-            renderFolderFiles();
+            document.getElementById('adminSearchInput').value = ""; // Clear old search query on change
+            document.getElementById('currentActiveFolderName').innerText = name === 'All' ? `📂 ডিরেক্টরি: All Data (সব তালিকা)` : `📂 ডিরেক্টরি: ${name}`;
+            renderFolderFiles(window.volunteers);
         }
 
         window.exitFolderView = function() {
@@ -555,16 +661,38 @@
             renderFolders();
         }
 
-        function renderFolderFiles() {
-            const container = document.getElementById('innerMembersContainer'); container.innerHTML = "";
-            const list = window.volunteers.filter(v => v.category === window.selectedFolder);
+        // Live Realtime Dynamic Admin Search Engine
+        window.handleAdminSearch = function() {
+            const query = document.getElementById('adminSearchInput').value.toLowerCase().trim();
+            let baseList = window.volunteers;
+            
+            // If inside a specific active folder, limit results to that specific directory profile scope
+            if (window.selectedFolder !== "All") {
+                baseList = window.volunteers.filter(v => v.category === window.selectedFolder);
+            }
 
-            if(list.length === 0) {
+            const filtered = baseList.filter(v => {
+                return v.name.toLowerCase().includes(query) || v.mobile.includes(query);
+            });
+
+            renderFolderFiles(filtered);
+        }
+
+        function renderFolderFiles(listToRender) {
+            const container = document.getElementById('innerMembersContainer'); container.innerHTML = "";
+            let targetList = listToRender;
+
+            // Fallback default state standard behavior
+            if (!targetList) {
+                targetList = window.selectedFolder === "All" ? window.volunteers : window.volunteers.filter(v => v.category === window.selectedFolder);
+            }
+
+            if(targetList.length === 0) {
                 container.innerHTML = `<div class="text-center py-12 text-slate-400 text-xs font-medium"><i class="fa-solid fa-file-excel text-2xl mb-1.5 block text-slate-300"></i>কোনো ফাইল রেকর্ড পাওয়া যায়নি</div>`;
                 return;
             }
 
-            list.forEach(v => {
+            targetList.forEach(v => {
                 const adminActions = (window.currentRole === 'admin') 
                     ? `<button onclick="openEditMode('${v.id}')" class="text-amber-600 hover:bg-amber-50 p-2 rounded-xl transition text-xs" title="এডিট"><i class="fa-solid fa-pen-to-square"></i></button>
                        <button onclick="deleteMember('${v.id}')" class="text-slate-400 hover:text-rose-500 p-2 transition text-xs" title="ডিলিট"><i class="fa-solid fa-trash-can"></i></button>` 
@@ -576,7 +704,7 @@
                             <img src="${v.photo}" class="w-11 h-11 rounded-lg object-cover border border-slate-200 shrink-0">
                             <div class="min-w-0">
                                 <h4 class="font-bold text-slate-800 text-xs md:text-sm truncate">${v.name}</h4>
-                                <p class="text-[11px] text-slate-500 mt-0.5">ব্যাচ: ${v.sscBatch} | রক্ত: <span class="text-rose-600 font-bold">${v.bloodGroup}</span></p>
+                                <p class="text-[11px] text-slate-500 mt-0.5">ক্যাটাগরি: <span class="text-blue-600 font-semibold">${v.category}</span> | ব্যাচ: ${v.sscBatch} | রক্ত: <span class="text-rose-600 font-bold">${v.bloodGroup}</span></p>
                             </div>
                         </div>
                         <div class="flex items-center gap-1.5 shrink-0">
@@ -635,7 +763,6 @@
                 }
 
                 alert("মেম্বারের তথ্য সফলভাবে আপডেট করা হয়েছে!");
-                window.selectedFolder = updatedCategory; 
                 window.enterFolder(window.selectedFolder);
             } catch (error) {
                 console.error(error); alert("আপডেট করতে সমস্যা হয়েছে।");
@@ -678,7 +805,7 @@
             }
         }
 
-        // Dynamic Card Rendering Engine (Fixed Format)
+        // Dynamic Card Rendering Engine
         window.generateDynamicCard = function(memberId, mode, callback) {
             const v = window.volunteers.find(m => m.id === memberId); if(!v) return;
             const canvas = document.getElementById('cardCanvas'); const ctx = canvas.getContext('2d');
@@ -695,12 +822,10 @@
                     ctx.textAlign = "center"; 
                     ctx.textBaseline = "middle"; 
 
-                    // মেম্বারের নাম (সাইজ বড়: 32px)
                     ctx.fillStyle = "#1e293b"; 
                     ctx.font = "bold 32px 'Hind Siliguri', sans-serif";
                     ctx.fillText(v.name, 361, 725); 
 
-                    // মেম্বারের পদবী (সাইজ ছোট: 22px)
                     ctx.fillStyle = "#475569"; 
                     ctx.font = "600 22px 'Hind Siliguri', sans-serif";
                     ctx.fillText(v.fatherName, 361, 765); 
@@ -715,7 +840,8 @@
         }
 
         window.downloadCSV = function() {
-            const list = window.volunteers.filter(v => v.category === window.selectedFolder); if(list.length === 0) return;
+            const list = window.selectedFolder === "All" ? window.volunteers : window.volunteers.filter(v => v.category === window.selectedFolder);
+            if(list.length === 0) return;
             let csv = "\uFEFFID,Name,Designation,Mobile,Address,Blood Group,SSC Batch,Category\n";
             list.forEach(v => {
                 let cleanAddress = v.address.replace(/,/g, ' -');
