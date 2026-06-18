@@ -424,7 +424,6 @@
                 regClosedNotice.classList.add('hidden');
             } else {
                 formPage.classList.replace('block', 'hidden');
-                // Admin dashboard panels won't get overridden by closed screens
                 if (document.getElementById('dashboardPage').classList.contains('hidden')) {
                     regClosedNotice.classList.remove('hidden');
                 }
@@ -589,11 +588,10 @@
                 launchDashboard("অ্যাডমিন ফাইল ডিরেক্টরি প্যানেল");
                 await fetchVolunteersFromRealtimeDB();
                 
-                // Set initial switch look inside admin panel
                 const toggleSwitch = document.getElementById('regToggleSwitch');
                 const statusText = document.getElementById('switchStatusText');
                 toggleSwitch.checked = window.isRegistrationOpen;
-                statusText.innerText = window.isRegistrationOpen ? "চালু" : "বন্ধ";
+                statusText.innerText = window.isRegistrationOpen ? "चालू" : "বন্ধ";
                 statusText.className = window.isRegistrationOpen ? "text-xs font-bold text-emerald-600" : "text-xs font-bold text-rose-500";
                 
                 renderFolders();
@@ -619,7 +617,6 @@
         function renderFolders() {
             const folderZone = document.getElementById('folderViewZone'); folderZone.innerHTML = "";
             
-            // 1. Render Specific Categories Folders
             categoryList.forEach(cat => {
                 const count = window.volunteers.filter(v => v.category === cat).length;
                 folderZone.innerHTML += `
@@ -631,7 +628,6 @@
                 `;
             });
 
-            // 2. Add an Extra Folder for 'All Data' Visual Shortcut
             const totalCount = window.volunteers.length;
             folderZone.innerHTML += `
                 <div onclick="enterFolder('All')" class="folder-card p-4 rounded-xl cursor-pointer text-center flex flex-col items-center justify-center border-blue-200 bg-blue-50/20">
@@ -648,9 +644,12 @@
             document.getElementById('fileViewZone').classList.remove('hidden');
             document.getElementById('profileViewZone').classList.add('hidden');
             document.getElementById('editViewZone').classList.add('hidden');
-            document.getElementById('adminSearchInput').value = ""; // Clear old search query on change
+            document.getElementById('adminSearchInput').value = ""; 
             document.getElementById('currentActiveFolderName').innerText = name === 'All' ? `📂 ডিরেক্টরি: All Data (সব তালিকা)` : `📂 ডিরেক্টরি: ${name}`;
-            renderFolderFiles(window.volunteers);
+            
+            // ফোল্ডার অনুযায়ী ডাটা ফিল্টার করে পাঠানো হচ্ছে
+            const filteredList = name === 'All' ? window.volunteers : window.volunteers.filter(v => v.category === name);
+            renderFolderFiles(filteredList);
         }
 
         window.exitFolderView = function() {
@@ -661,12 +660,10 @@
             renderFolders();
         }
 
-        // Live Realtime Dynamic Admin Search Engine
         window.handleAdminSearch = function() {
             const query = document.getElementById('adminSearchInput').value.toLowerCase().trim();
             let baseList = window.volunteers;
             
-            // If inside a specific active folder, limit results to that specific directory profile scope
             if (window.selectedFolder !== "All") {
                 baseList = window.volunteers.filter(v => v.category === window.selectedFolder);
             }
@@ -678,11 +675,12 @@
             renderFolderFiles(filtered);
         }
 
+        // FIXED: renderFolderFiles লজিক এখন নিখুঁতভাবে কাজ করবে
         function renderFolderFiles(listToRender) {
             const container = document.getElementById('innerMembersContainer'); container.innerHTML = "";
             let targetList = listToRender;
 
-            // Fallback default state standard behavior
+            // যদি কোনো কারণে প্যারামিটার ফাঁকা থাকে, তবে কারেন্ট সিলেক্টেড ফোল্ডার ট্র্যাকিং দিয়ে ফিল্টার হবে
             if (!targetList) {
                 targetList = window.selectedFolder === "All" ? window.volunteers : window.volunteers.filter(v => v.category === window.selectedFolder);
             }
@@ -795,17 +793,20 @@
             document.getElementById('fileViewZone').classList.remove('hidden');
         }
 
+        // FIXED: ডিলিট করার পর কারেন্ট ফোল্ডার রেন্ডার লজিক
         window.deleteMember = async function(id) {
             if(confirm("ফাইলটি চিরতরে ডিলিট করতে চান?")) {
                 try {
                     await remove(ref(db, `premium_volunteers/${id}`));
                     window.volunteers = window.volunteers.filter(v => v.id !== id);
-                    renderFolderFiles(); renderFolders(); 
+                    
+                    const updatedList = window.selectedFolder === "All" ? window.volunteers : window.volunteers.filter(v => v.category === window.selectedFolder);
+                    renderFolderFiles(updatedList); 
+                    renderFolders(); 
                 } catch (error) { console.error(error); alert("ডিলিট করা সম্ভব হয়নি।"); }
             }
         }
 
-        // Dynamic Card Rendering Engine
         window.generateDynamicCard = function(memberId, mode, callback) {
             const v = window.volunteers.find(m => m.id === memberId); if(!v) return;
             const canvas = document.getElementById('cardCanvas'); const ctx = canvas.getContext('2d');
